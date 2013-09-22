@@ -60,11 +60,15 @@
 
 -(void)getHomepageWithFilter:(NSString *)filter success:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure {
     HNOperation *operation = [[HNOperation alloc] init];
+    NSString *addr =@"http://zhangfei.info/rss.php?fid=%@";
     __weak HNOperation *weakOp = operation;
-    [operation setUrlPath:[NSString stringWithFormat:@"https://news.ycombinator.com/%@", filter] data:nil completion:^{
-        NSString *responseString = [[NSString alloc] initWithData:weakOp.responseData encoding:NSUTF8StringEncoding];
+    NSString *urlString=[[NSString stringWithFormat: addr,filter] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+    
+    [operation setUrlPath:urlString data:nil completion:^{
+        NSString *responseString = [[NSString alloc] initWithData:weakOp.responseData encoding:enc];
         if (responseString.length > 0) {
-            NSArray *posts = [Post parsedFrontPagePostsFromHTML:responseString];
+            NSArray *posts = [Post parsedFrontPagePostsFromRss:responseString];
             dispatch_async(dispatch_get_main_queue(), ^{
                 success(posts);
             });
@@ -92,7 +96,7 @@
         [operation setUrlPath:[NSString stringWithFormat:@"https://news.ycombinator.com/%@", [fnid stringByReplacingOccurrencesOfString:@"/" withString:@""]] data:nil completion:^{
             NSString *responseString = [[NSString alloc] initWithData:weakOp.responseData encoding:NSUTF8StringEncoding];
             if (responseString.length > 0) {
-                NSArray *posts = [Post parsedFrontPagePostsFromHTML:responseString];
+                NSArray *posts = [Post parsedFrontPagePostsFromRss:responseString];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     success(posts);
                     self.isLoadingFromFNID = NO;

@@ -26,11 +26,15 @@
 #define kLoadingRectSubmit CGRectMake(249,17,20,20)
 
 typedef NS_ENUM(NSInteger, FilterType) {
-    FilterTypeTop,
-    FilterTypeAsk,
-    FilterTypeNew,
-    FilterTypeJobs,
-    FilterTypeBest
+    FilterTypeDiscuss,
+    FilterTypeNewUs,
+    FilterTypeFlag,
+    FilterTypeNovel,
+    FilterTypeAsiaNo,
+    FilterTypeAsiaYes,
+    FilterTypeAmerica,
+    FilterTypeComic,
+    FilterTypeHttpDownload
 };
 
 @interface ViewController : UIViewController <WebserviceDelegate, UITableViewDataSource, UITableViewDelegate,UIWebViewDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate>

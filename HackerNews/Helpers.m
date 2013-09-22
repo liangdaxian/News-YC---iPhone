@@ -78,7 +78,7 @@
 
 + (void)buildNavBarForController:(UINavigationController *)navController {
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-        [navController.navigationBar setBarTintColor:kOrangeColor];
+//        [navController.navigationBar setBarTintColor:kOrangeColor];
     }
     else {
         [navController.navigationBar setTintColor:kOrangeColor];

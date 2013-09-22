@@ -71,23 +71,35 @@
     if (self) {
         self.filterType = type;
         switch (type) {
-            case FilterTypeTop:
-                filterString = @"";
+            case FilterTypeDiscuss:
+                filterString = @"7";
                 break;
-            case FilterTypeAsk:
-                filterString = @"ask";
+            case FilterTypeNewUs:
+                filterString = @"8";
                 break;
-            case FilterTypeNew:
-                filterString = @"newest";
+            case FilterTypeFlag:
+                filterString = @"16";
                 break;
-            case FilterTypeJobs:
-                filterString = @"jobs";
+            case FilterTypeNovel:
+                filterString = @"20";
                 break;
-            case FilterTypeBest:
-                filterString = @"best";
+            case FilterTypeAsiaNo:
+                filterString = @"2";
+                break;
+            case FilterTypeAsiaYes:
+                filterString = @"15";
+                break;
+            case FilterTypeAmerica:
+                filterString = @"4";
+                break;
+            case FilterTypeComic:
+                filterString = @"5";
+                break;
+            case FilterTypeHttpDownload:
+                filterString = @"21";
                 break;
             default:
-                filterString = @"";
+                filterString = @"7";
                 self.filterType = 0;
                 break;
         }
@@ -123,7 +135,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didLoginOrOut) name:@"DidLoginOrOut" object:nil];
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
+//        self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
     // Add Gesture Recognizers
@@ -426,7 +438,7 @@
         
         // Mark As Read
         currentPost.HasRead = YES;
-        [[HNSingleton sharedHNSingleton].hasReadThisArticleDict setValue:@"YES" forKey:currentPost.PostID];
+        [[HNSingleton sharedHNSingleton].hasReadThisArticleDict setValue:@"YES" forKey:currentPost.link];
         
         // Launch LinkView
         [self launchLinkView];
@@ -704,10 +716,10 @@
     
     // Determine if using Readability, and load the webpage
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Readability"]) {
-        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.readability.com/m?url=%@", currentPost.URLString]]]];
+        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.readability.com/m?url=%@", currentPost.link]]]];
     }
     else {
-        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.URLString]]];
+        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
     }
 }
 

@@ -13,6 +13,11 @@
 @property (nonatomic,retain) NSString *Username;
 @property (nonatomic, retain) NSString *URLString;
 @property (nonatomic, retain) NSString *Title;
+@property (nonatomic, retain) NSString *Description;
+@property (nonatomic, retain) NSString *link;
+@property (nonatomic, retain) NSString *author;
+@property (nonatomic, retain) NSString *category;
+@property (nonatomic, retain) NSString *pubdate;
 @property (nonatomic, assign) int Points;
 @property (nonatomic, assign) int CommentCount;
 @property (nonatomic, retain) NSString *PostID;
@@ -26,6 +31,6 @@
 
 +(Post *)postFromDictionary:(NSDictionary *)dict;
 +(NSArray *)orderPosts:(NSMutableArray *)posts byItemIDs:(NSArray *)items;
-+ (NSArray *)parsedFrontPagePostsFromHTML:(NSString *)htmlString;
++ (NSArray *)parsedFrontPagePostsFromRss:(NSString *)htmlString;
 
 @end
