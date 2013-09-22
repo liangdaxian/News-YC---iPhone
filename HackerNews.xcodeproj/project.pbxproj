@@ -37,6 +37,7 @@
 		6C2DAB09174C9C2E0069BAE1 /* vi.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 6C2DAAF1174C9C2E0069BAE1 /* vi.lproj */; };
 		6C2DAB0A174C9C2E0069BAE1 /* zh_CN.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 6C2DAAF2174C9C2E0069BAE1 /* zh_CN.lproj */; };
 		6C7410C61751C09A0027C09C /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C7410C51751C09A0027C09C /* share.png */; };
+		BB6ECC7C17ED9C6300C40FE4 /* ItemParser.m in Sources */ = {isa = PBXBuildFile; fileRef = BB6ECC7B17ED9C6300C40FE4 /* ItemParser.m */; };
 		C012E5CC173B09440030924E /* logoutOrange-01.png in Resources */ = {isa = PBXBuildFile; fileRef = C012E5CB173B09440030924E /* logoutOrange-01.png */; };
 		C01EDDE71731553B00AE97B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C01EDDE61731553B00AE97B8 /* UIKit.framework */; };
 		C01EDDE91731553B00AE97B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C01EDDE81731553B00AE97B8 /* Foundation.framework */; };
@@ -164,6 +165,8 @@
 		6C2DAAF1174C9C2E0069BAE1 /* vi.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = vi.lproj; path = TUSafariActivity/vi.lproj; sourceTree = "<group>"; };
 		6C2DAAF2174C9C2E0069BAE1 /* zh_CN.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = zh_CN.lproj; path = TUSafariActivity/zh_CN.lproj; sourceTree = "<group>"; };
 		6C7410C51751C09A0027C09C /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
+		BB6ECC7A17ED9C6300C40FE4 /* ItemParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemParser.h; sourceTree = "<group>"; };
+		BB6ECC7B17ED9C6300C40FE4 /* ItemParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemParser.m; sourceTree = "<group>"; };
 		C012E5CB173B09440030924E /* logoutOrange-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logoutOrange-01.png"; sourceTree = "<group>"; };
 		C01EDDE31731553B00AE97B8 /* HackerNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C01EDDE61731553B00AE97B8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -436,6 +439,8 @@
 			isa = PBXGroup;
 			children = (
 				C01EDE0A1731557900AE97B8 /* Webservice.h */,
+				BB6ECC7A17ED9C6300C40FE4 /* ItemParser.h */,
+				BB6ECC7B17ED9C6300C40FE4 /* ItemParser.m */,
 				C01EDE0B1731557900AE97B8 /* Webservice.m */,
 				C053BCD317921E4D00BAB3CC /* HNOperation.h */,
 				C053BCD417921E4D00BAB3CC /* HNOperation.m */,
@@ -634,7 +639,7 @@
 				ORGANIZATIONNAME = "Benjamin Gordon";
 				TargetAttributes = {
 					C01EDDE21731553B00AE97B8 = {
-						DevelopmentTeam = RMTZ2ZJ8M5;
+						DevelopmentTeam = 2ARNJY38FW;
 					};
 				};
 			};
@@ -757,6 +762,7 @@
 				C01EDDF31731553B00AE97B8 /* main.m in Sources */,
 				C01EDDF71731553B00AE97B8 /* AppDelegate.m in Sources */,
 				C01EDE001731553B00AE97B8 /* ViewController.m in Sources */,
+				BB6ECC7C17ED9C6300C40FE4 /* ItemParser.m in Sources */,
 				C01EDE0C1731557900AE97B8 /* Webservice.m in Sources */,
 				C01EDE1017315C6700AE97B8 /* Post.m in Sources */,
 				C01EDE131731861F00AE97B8 /* Comment.m in Sources */,
