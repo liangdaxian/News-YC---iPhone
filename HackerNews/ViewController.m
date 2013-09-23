@@ -734,17 +734,16 @@
         NSArray * elements  = [doc searchWithXPathQuery:@"//div[@class='tpc_content']"];
         
         TFHppleElement * element = [elements objectAtIndex:0];
-        [element text];                       // The text inside the HTML element (the content of the first text node)
-        [element tagName];                    // "a"
-        [element attributes];                 // NSDictionary of href, class, id, etc.
-        [element objectForKey:@"href"];       // Easy access to single attribute
-        [element firstChildWithTagName:@"b"]; // The first "b" child node
-        
+ 
         NSString *path = [[NSBundle mainBundle] bundlePath];
         NSURL *baseURL = [NSURL fileURLWithPath:path];
-        [linkWebView loadHTMLString:[element raw] baseURL:baseURL];
         
-//        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
+        NSString *template = @"<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:fb=\"https://www.facebook.com/2008/fbml\" itemscope=\"itemscope\" itemtype=\"http://schema.org/Product\"><head prefix=\"og: http://ogp.me/ns# nodejsexpressdemo: http://ogp.me/ns/apps/nodejsexpressdemo#\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><title>detail</title><meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\"><meta name=\"keywords\" content=\"test\"><meta name=\"description\" content=\"test\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link href=\"bootstrap.min.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"bootstrap-responsive.min.css\"><link href=\"prettify.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"app.css\"></head><body data-spy=\"scroll\" data-target=\".bs-docs-sidebar\"><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\">__CONTENT_TO_BE_REPLACED__</div></div></div></body></html>";
+        NSString *rendered =  [template stringByReplacingOccurrencesOfString:@"__CONTENT_TO_BE_REPLACED__" withString:[element raw]];
+       
+        [linkWebView loadHTMLString:rendered baseURL:baseURL];
+        
+//      [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
     }
 }
 

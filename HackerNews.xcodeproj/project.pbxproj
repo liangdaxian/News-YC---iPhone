@@ -42,6 +42,24 @@
 		BB7681B417EFDB9F0098FB08 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = BB7681B117EFDB9F0098FB08 /* TFHpple.m */; };
 		BB7681B517EFDB9F0098FB08 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = BB7681B317EFDB9F0098FB08 /* TFHppleElement.m */; };
 		BB7681B817EFDBA60098FB08 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = BB7681B717EFDBA60098FB08 /* XPathQuery.m */; };
+		BBF6026717EFE68F00CF8FC1 /* app.css in Resources */ = {isa = PBXBuildFile; fileRef = BB76818F17EF2EB20098FB08 /* app.css */; };
+		BBF6026817EFE68F00CF8FC1 /* bootstrap-responsive.css in Resources */ = {isa = PBXBuildFile; fileRef = BB76819017EF2EB20098FB08 /* bootstrap-responsive.css */; };
+		BBF6026917EFE68F00CF8FC1 /* bootstrap-responsive.min.css in Resources */ = {isa = PBXBuildFile; fileRef = BB76819117EF2EB20098FB08 /* bootstrap-responsive.min.css */; };
+		BBF6026A17EFE68F00CF8FC1 /* bootstrap.css in Resources */ = {isa = PBXBuildFile; fileRef = BB76819217EF2EB20098FB08 /* bootstrap.css */; };
+		BBF6026B17EFE68F00CF8FC1 /* bootstrap.min.css in Resources */ = {isa = PBXBuildFile; fileRef = BB76819317EF2EB20098FB08 /* bootstrap.min.css */; };
+		BBF6026C17EFE68F00CF8FC1 /* docs.css in Resources */ = {isa = PBXBuildFile; fileRef = BB76819417EF2EB20098FB08 /* docs.css */; };
+		BBF6026D17EFE68F00CF8FC1 /* jquery.tagsinput.css in Resources */ = {isa = PBXBuildFile; fileRef = BB76819517EF2EB20098FB08 /* jquery.tagsinput.css */; };
+		BBF6027017EFE68F00CF8FC1 /* app.js in Resources */ = {isa = PBXBuildFile; fileRef = BB76819A17EF2EB20098FB08 /* app.js */; };
+		BBF6027117EFE68F00CF8FC1 /* application.js in Resources */ = {isa = PBXBuildFile; fileRef = BB76819B17EF2EB20098FB08 /* application.js */; };
+		BBF6027217EFE68F00CF8FC1 /* bootbox.js in Resources */ = {isa = PBXBuildFile; fileRef = BB76819C17EF2EB20098FB08 /* bootbox.js */; };
+		BBF6027317EFE68F00CF8FC1 /* bootstrap.js in Resources */ = {isa = PBXBuildFile; fileRef = BB76819D17EF2EB20098FB08 /* bootstrap.js */; };
+		BBF6027417EFE68F00CF8FC1 /* bootstrap.min.js in Resources */ = {isa = PBXBuildFile; fileRef = BB76819E17EF2EB20098FB08 /* bootstrap.min.js */; };
+		BBF6027517EFE68F00CF8FC1 /* prettify.css in Resources */ = {isa = PBXBuildFile; fileRef = BB7681A017EF2EB20098FB08 /* prettify.css */; };
+		BBF6027617EFE68F00CF8FC1 /* prettify.js in Resources */ = {isa = PBXBuildFile; fileRef = BB7681A117EF2EB20098FB08 /* prettify.js */; };
+		BBF6027717EFE68F00CF8FC1 /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = BB7681A217EF2EB20098FB08 /* jquery.js */; };
+		BBF6027817EFE68F00CF8FC1 /* jquery.min.js in Resources */ = {isa = PBXBuildFile; fileRef = BB7681A317EF2EB20098FB08 /* jquery.min.js */; };
+		BBF6027917EFE68F00CF8FC1 /* jquery.tagsinput.min.js in Resources */ = {isa = PBXBuildFile; fileRef = BB7681A417EF2EB20098FB08 /* jquery.tagsinput.min.js */; };
+		BBF6027A17EFE68F00CF8FC1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = BB7681A517EF2EB20098FB08 /* README.md */; };
 		C012E5CC173B09440030924E /* logoutOrange-01.png in Resources */ = {isa = PBXBuildFile; fileRef = C012E5CB173B09440030924E /* logoutOrange-01.png */; };
 		C01EDDE71731553B00AE97B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C01EDDE61731553B00AE97B8 /* UIKit.framework */; };
 		C01EDDE91731553B00AE97B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C01EDDE81731553B00AE97B8 /* Foundation.framework */; };
@@ -178,8 +196,6 @@
 		BB76819317EF2EB20098FB08 /* bootstrap.min.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = bootstrap.min.css; sourceTree = "<group>"; };
 		BB76819417EF2EB20098FB08 /* docs.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = docs.css; sourceTree = "<group>"; };
 		BB76819517EF2EB20098FB08 /* jquery.tagsinput.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = jquery.tagsinput.css; sourceTree = "<group>"; };
-		BB76819717EF2EB20098FB08 /* news01.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = news01.ico; sourceTree = "<group>"; };
-		BB76819817EF2EB20098FB08 /* yahoo-news.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = "yahoo-news.ico"; sourceTree = "<group>"; };
 		BB76819A17EF2EB20098FB08 /* app.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
 		BB76819B17EF2EB20098FB08 /* application.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = application.js; sourceTree = "<group>"; };
 		BB76819C17EF2EB20098FB08 /* bootbox.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = bootbox.js; sourceTree = "<group>"; };
@@ -401,10 +417,10 @@
 			isa = PBXGroup;
 			children = (
 				BB76818E17EF2EB20098FB08 /* css */,
-				BB76819617EF2EB20098FB08 /* ico */,
 				BB76819917EF2EB20098FB08 /* js */,
 			);
-			path = assets;
+			name = assets;
+			path = ../assets;
 			sourceTree = "<group>";
 		};
 		BB76818E17EF2EB20098FB08 /* css */ = {
@@ -419,15 +435,6 @@
 				BB76819517EF2EB20098FB08 /* jquery.tagsinput.css */,
 			);
 			path = css;
-			sourceTree = "<group>";
-		};
-		BB76819617EF2EB20098FB08 /* ico */ = {
-			isa = PBXGroup;
-			children = (
-				BB76819717EF2EB20098FB08 /* news01.ico */,
-				BB76819817EF2EB20098FB08 /* yahoo-news.ico */,
-			);
-			path = ico;
 			sourceTree = "<group>";
 		};
 		BB76819917EF2EB20098FB08 /* js */ = {
@@ -474,7 +481,6 @@
 		C01EDDDA1731553B00AE97B8 = {
 			isa = PBXGroup;
 			children = (
-				BB76818D17EF2EB20098FB08 /* assets */,
 				C08142171797975E00D1BB17 /* CoreText.framework */,
 				C01EDEB81733698D00AE97B8 /* MessageUI.framework */,
 				C01EDEB61733698600AE97B8 /* Social.framework */,
@@ -514,6 +520,7 @@
 		C01EDDEC1731553B00AE97B8 /* HackerNews */ = {
 			isa = PBXGroup;
 			children = (
+				BB76818D17EF2EB20098FB08 /* assets */,
 				BB7681A617EF34FA0098FB08 /* Parser */,
 				6C2DAACC174C971E0069BAE1 /* ShareActivities */,
 				C01EDE091731554E00AE97B8 /* Webservice */,
@@ -774,6 +781,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBF6026717EFE68F00CF8FC1 /* app.css in Resources */,
+				BBF6026817EFE68F00CF8FC1 /* bootstrap-responsive.css in Resources */,
+				BBF6026917EFE68F00CF8FC1 /* bootstrap-responsive.min.css in Resources */,
+				BBF6026A17EFE68F00CF8FC1 /* bootstrap.css in Resources */,
+				BBF6026B17EFE68F00CF8FC1 /* bootstrap.min.css in Resources */,
+				BBF6026C17EFE68F00CF8FC1 /* docs.css in Resources */,
+				BBF6026D17EFE68F00CF8FC1 /* jquery.tagsinput.css in Resources */,
+				BBF6027017EFE68F00CF8FC1 /* app.js in Resources */,
+				BBF6027117EFE68F00CF8FC1 /* application.js in Resources */,
+				BBF6027217EFE68F00CF8FC1 /* bootbox.js in Resources */,
+				BBF6027317EFE68F00CF8FC1 /* bootstrap.js in Resources */,
+				BBF6027417EFE68F00CF8FC1 /* bootstrap.min.js in Resources */,
+				BBF6027517EFE68F00CF8FC1 /* prettify.css in Resources */,
+				BBF6027617EFE68F00CF8FC1 /* prettify.js in Resources */,
+				BBF6027717EFE68F00CF8FC1 /* jquery.js in Resources */,
+				BBF6027817EFE68F00CF8FC1 /* jquery.min.js in Resources */,
+				BBF6027917EFE68F00CF8FC1 /* jquery.tagsinput.min.js in Resources */,
+				BBF6027A17EFE68F00CF8FC1 /* README.md in Resources */,
 				C01EDDF11731553B00AE97B8 /* InfoPlist.strings in Resources */,
 				C01EDE301731A44200AE97B8 /* FilterCell.xib in Resources */,
 				C01EDE321731A44200AE97B8 /* ShareCell.xib in Resources */,
