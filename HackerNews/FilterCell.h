@@ -19,11 +19,16 @@
 
 @interface FilterCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIButton *topButton;
-@property (weak, nonatomic) IBOutlet UIButton *askButton;
-@property (weak, nonatomic) IBOutlet UIButton *newestButton;
-@property (weak, nonatomic) IBOutlet UIButton *jobsButton;
-@property (weak, nonatomic) IBOutlet UIButton *bestButton;
+@property (weak, nonatomic) IBOutlet UIButton *discussButton;
+@property (weak, nonatomic) IBOutlet UIButton *newusButton;
+@property (weak, nonatomic) IBOutlet UIButton *flagButton;
+@property (weak, nonatomic) IBOutlet UIButton *novelButton;
+@property (weak, nonatomic) IBOutlet UIButton *AsiaNoButton;
+@property (weak, nonatomic) IBOutlet UIButton *AsiaYesButton;
+@property (weak, nonatomic) IBOutlet UIButton *AmericaButton;
+@property (weak, nonatomic) IBOutlet UIButton *ComicButton;
+@property (weak, nonatomic) IBOutlet UIButton *HttpDownloadButton;
+
 @property (weak) id <FilterCellDelegate> delegate;
 
 - (void)setUpCellForActiveFilter:(int)filter delegate:(id)vcDelegate;

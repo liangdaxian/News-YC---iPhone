@@ -713,39 +713,34 @@
         linkView.frame = CGRectMake(0, 0, linkView.frame.size.width, linkView.frame.size.height);
     } completion:^(BOOL finished) {
         [self.navigationController setNavigationBarHidden:YES animated:YES];
+        
+        // Determine if using Readability, and load the webpage
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Readability"]) {
+            
+            // make webview render using local css
+            NSString* myFile = currentPost.link;
+            NSString* myFileURLString = [myFile stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSData *myFileData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:myFileURLString]];
+            
+            TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:myFileData encoding:@"gbk"];
+            NSArray * elements  = [doc searchWithXPathQuery:@"//div[@class='tpc_content']"];
+            
+            if(elements && elements.count>0){
+                TFHppleElement * element = [elements objectAtIndex:0];
+                NSString *path = [[NSBundle mainBundle] bundlePath];
+                NSURL *baseURL = [NSURL fileURLWithPath:path];
+                NSString *template = @"<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:fb=\"https://www.facebook.com/2008/fbml\" itemscope=\"itemscope\" itemtype=\"http://schema.org/Product\"><head prefix=\"og: http://ogp.me/ns# nodejsexpressdemo: http://ogp.me/ns/apps/nodejsexpressdemo#\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><title>detail</title><meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\"><meta name=\"keywords\" content=\"test\"><meta name=\"description\" content=\"test\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link href=\"bootstrap.min.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"bootstrap-responsive.min.css\"><link href=\"prettify.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"app.css\"></head><body data-spy=\"scroll\" data-target=\".bs-docs-sidebar\"><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\">__CONTENT_TO_BE_REPLACED__</div></div></div></body></html>";
+                NSString *rendered =  [template stringByReplacingOccurrencesOfString:@"__CONTENT_TO_BE_REPLACED__" withString:[element raw]];
+                [linkWebView loadHTMLString:rendered baseURL:baseURL];
+            }else{
+                [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
+            }
+        }else {
+            
+            [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
+        }
     }];
-    
-    // Determine if using Readability, and load the webpage
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Readability"]) {
-//        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.readability.com/m?url=%@", currentPost.link]]]];
-        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
     }
-    else {
-        
-        
-        // make webview render using local css
-        NSString* myFile = currentPost.link;
-        NSString* myFileURLString = [myFile stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSData *myFileData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:myFileURLString]];
-        NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-        NSString* myFileHtml = [[NSString alloc] initWithData:myFileData encoding:enc];
-        
-        TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:myFileData encoding:@"gbk"];
-        NSArray * elements  = [doc searchWithXPathQuery:@"//div[@class='tpc_content']"];
-        
-        TFHppleElement * element = [elements objectAtIndex:0];
- 
-        NSString *path = [[NSBundle mainBundle] bundlePath];
-        NSURL *baseURL = [NSURL fileURLWithPath:path];
-        
-        NSString *template = @"<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:fb=\"https://www.facebook.com/2008/fbml\" itemscope=\"itemscope\" itemtype=\"http://schema.org/Product\"><head prefix=\"og: http://ogp.me/ns# nodejsexpressdemo: http://ogp.me/ns/apps/nodejsexpressdemo#\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><title>detail</title><meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\"><meta name=\"keywords\" content=\"test\"><meta name=\"description\" content=\"test\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link href=\"bootstrap.min.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"bootstrap-responsive.min.css\"><link href=\"prettify.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"app.css\"></head><body data-spy=\"scroll\" data-target=\".bs-docs-sidebar\"><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\">__CONTENT_TO_BE_REPLACED__</div></div></div></body></html>";
-        NSString *rendered =  [template stringByReplacingOccurrencesOfString:@"__CONTENT_TO_BE_REPLACED__" withString:[element raw]];
-       
-        [linkWebView loadHTMLString:rendered baseURL:baseURL];
-        
-//      [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
-    }
-}
 
 
 #pragma mark - External Link View

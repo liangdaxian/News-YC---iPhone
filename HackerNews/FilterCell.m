@@ -27,7 +27,7 @@
 }
 
 - (void)setUpCellForActiveFilter:(int)filter delegate:(id)vcDelegate {
-    NSArray *buttons = @[self.topButton, self.askButton, self.newestButton, self.jobsButton, self.bestButton];
+    NSArray *buttons = @[self.discussButton, self.newusButton, self.flagButton, self.novelButton, self.AsiaNoButton,self.AsiaYesButton,self.AmericaButton,self.ComicButton,self.HttpDownloadButton];
     if (vcDelegate) {
         delegate = (id <FilterCellDelegate>)vcDelegate;
     }
