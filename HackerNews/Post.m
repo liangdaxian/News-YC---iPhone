@@ -66,7 +66,6 @@
 
 + (NSArray *)parsedFrontPagePostsFromRss:(NSString *)htmlString {
     // Set up
-    
     NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
     
     NSData *data = [htmlString dataUsingEncoding:enc];

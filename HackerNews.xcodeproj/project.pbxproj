@@ -38,6 +38,10 @@
 		6C2DAB0A174C9C2E0069BAE1 /* zh_CN.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 6C2DAAF2174C9C2E0069BAE1 /* zh_CN.lproj */; };
 		6C7410C61751C09A0027C09C /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C7410C51751C09A0027C09C /* share.png */; };
 		BB6ECC7C17ED9C6300C40FE4 /* ItemParser.m in Sources */ = {isa = PBXBuildFile; fileRef = BB6ECC7B17ED9C6300C40FE4 /* ItemParser.m */; };
+		BB7681AF17EFD6D60098FB08 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB7681AB17EF37580098FB08 /* libxml2.dylib */; };
+		BB7681B417EFDB9F0098FB08 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = BB7681B117EFDB9F0098FB08 /* TFHpple.m */; };
+		BB7681B517EFDB9F0098FB08 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = BB7681B317EFDB9F0098FB08 /* TFHppleElement.m */; };
+		BB7681B817EFDBA60098FB08 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = BB7681B717EFDBA60098FB08 /* XPathQuery.m */; };
 		C012E5CC173B09440030924E /* logoutOrange-01.png in Resources */ = {isa = PBXBuildFile; fileRef = C012E5CB173B09440030924E /* logoutOrange-01.png */; };
 		C01EDDE71731553B00AE97B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C01EDDE61731553B00AE97B8 /* UIKit.framework */; };
 		C01EDDE91731553B00AE97B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C01EDDE81731553B00AE97B8 /* Foundation.framework */; };
@@ -167,6 +171,34 @@
 		6C7410C51751C09A0027C09C /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		BB6ECC7A17ED9C6300C40FE4 /* ItemParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemParser.h; sourceTree = "<group>"; };
 		BB6ECC7B17ED9C6300C40FE4 /* ItemParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemParser.m; sourceTree = "<group>"; };
+		BB76818F17EF2EB20098FB08 /* app.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = app.css; sourceTree = "<group>"; };
+		BB76819017EF2EB20098FB08 /* bootstrap-responsive.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "bootstrap-responsive.css"; sourceTree = "<group>"; };
+		BB76819117EF2EB20098FB08 /* bootstrap-responsive.min.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "bootstrap-responsive.min.css"; sourceTree = "<group>"; };
+		BB76819217EF2EB20098FB08 /* bootstrap.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = bootstrap.css; sourceTree = "<group>"; };
+		BB76819317EF2EB20098FB08 /* bootstrap.min.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = bootstrap.min.css; sourceTree = "<group>"; };
+		BB76819417EF2EB20098FB08 /* docs.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = docs.css; sourceTree = "<group>"; };
+		BB76819517EF2EB20098FB08 /* jquery.tagsinput.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = jquery.tagsinput.css; sourceTree = "<group>"; };
+		BB76819717EF2EB20098FB08 /* news01.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = news01.ico; sourceTree = "<group>"; };
+		BB76819817EF2EB20098FB08 /* yahoo-news.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = "yahoo-news.ico"; sourceTree = "<group>"; };
+		BB76819A17EF2EB20098FB08 /* app.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
+		BB76819B17EF2EB20098FB08 /* application.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = application.js; sourceTree = "<group>"; };
+		BB76819C17EF2EB20098FB08 /* bootbox.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = bootbox.js; sourceTree = "<group>"; };
+		BB76819D17EF2EB20098FB08 /* bootstrap.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = bootstrap.js; sourceTree = "<group>"; };
+		BB76819E17EF2EB20098FB08 /* bootstrap.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = bootstrap.min.js; sourceTree = "<group>"; };
+		BB7681A017EF2EB20098FB08 /* prettify.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = prettify.css; sourceTree = "<group>"; };
+		BB7681A117EF2EB20098FB08 /* prettify.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = prettify.js; sourceTree = "<group>"; };
+		BB7681A217EF2EB20098FB08 /* jquery.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
+		BB7681A317EF2EB20098FB08 /* jquery.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
+		BB7681A417EF2EB20098FB08 /* jquery.tagsinput.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.tagsinput.min.js; sourceTree = "<group>"; };
+		BB7681A517EF2EB20098FB08 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		BB7681AB17EF37580098FB08 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		BB7681AD17EF3A7D0098FB08 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
+		BB7681B017EFDB9F0098FB08 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		BB7681B117EFDB9F0098FB08 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		BB7681B217EFDB9F0098FB08 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		BB7681B317EFDB9F0098FB08 /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		BB7681B617EFDBA60098FB08 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		BB7681B717EFDBA60098FB08 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
 		C012E5CB173B09440030924E /* logoutOrange-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logoutOrange-01.png"; sourceTree = "<group>"; };
 		C01EDDE31731553B00AE97B8 /* HackerNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C01EDDE61731553B00AE97B8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -297,6 +329,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB7681AF17EFD6D60098FB08 /* libxml2.dylib in Frameworks */,
 				C08142181797975E00D1BB17 /* CoreText.framework in Frameworks */,
 				C01EDEB91733698D00AE97B8 /* MessageUI.framework in Frameworks */,
 				C01EDEB71733698600AE97B8 /* Social.framework in Frameworks */,
@@ -364,9 +397,84 @@
 			name = TUSafariActivity;
 			sourceTree = "<group>";
 		};
+		BB76818D17EF2EB20098FB08 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				BB76818E17EF2EB20098FB08 /* css */,
+				BB76819617EF2EB20098FB08 /* ico */,
+				BB76819917EF2EB20098FB08 /* js */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+		BB76818E17EF2EB20098FB08 /* css */ = {
+			isa = PBXGroup;
+			children = (
+				BB76818F17EF2EB20098FB08 /* app.css */,
+				BB76819017EF2EB20098FB08 /* bootstrap-responsive.css */,
+				BB76819117EF2EB20098FB08 /* bootstrap-responsive.min.css */,
+				BB76819217EF2EB20098FB08 /* bootstrap.css */,
+				BB76819317EF2EB20098FB08 /* bootstrap.min.css */,
+				BB76819417EF2EB20098FB08 /* docs.css */,
+				BB76819517EF2EB20098FB08 /* jquery.tagsinput.css */,
+			);
+			path = css;
+			sourceTree = "<group>";
+		};
+		BB76819617EF2EB20098FB08 /* ico */ = {
+			isa = PBXGroup;
+			children = (
+				BB76819717EF2EB20098FB08 /* news01.ico */,
+				BB76819817EF2EB20098FB08 /* yahoo-news.ico */,
+			);
+			path = ico;
+			sourceTree = "<group>";
+		};
+		BB76819917EF2EB20098FB08 /* js */ = {
+			isa = PBXGroup;
+			children = (
+				BB76819A17EF2EB20098FB08 /* app.js */,
+				BB76819B17EF2EB20098FB08 /* application.js */,
+				BB76819C17EF2EB20098FB08 /* bootbox.js */,
+				BB76819D17EF2EB20098FB08 /* bootstrap.js */,
+				BB76819E17EF2EB20098FB08 /* bootstrap.min.js */,
+				BB76819F17EF2EB20098FB08 /* google-code-prettify */,
+				BB7681A217EF2EB20098FB08 /* jquery.js */,
+				BB7681A317EF2EB20098FB08 /* jquery.min.js */,
+				BB7681A417EF2EB20098FB08 /* jquery.tagsinput.min.js */,
+				BB7681A517EF2EB20098FB08 /* README.md */,
+			);
+			path = js;
+			sourceTree = "<group>";
+		};
+		BB76819F17EF2EB20098FB08 /* google-code-prettify */ = {
+			isa = PBXGroup;
+			children = (
+				BB7681A017EF2EB20098FB08 /* prettify.css */,
+				BB7681A117EF2EB20098FB08 /* prettify.js */,
+			);
+			path = "google-code-prettify";
+			sourceTree = "<group>";
+		};
+		BB7681A617EF34FA0098FB08 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				BB7681B017EFDB9F0098FB08 /* TFHpple.h */,
+				BB7681B617EFDBA60098FB08 /* XPathQuery.h */,
+				BB7681B717EFDBA60098FB08 /* XPathQuery.m */,
+				BB7681B117EFDB9F0098FB08 /* TFHpple.m */,
+				BB7681B217EFDB9F0098FB08 /* TFHppleElement.h */,
+				BB7681B317EFDB9F0098FB08 /* TFHppleElement.m */,
+				BB6ECC7A17ED9C6300C40FE4 /* ItemParser.h */,
+				BB6ECC7B17ED9C6300C40FE4 /* ItemParser.m */,
+			);
+			name = Parser;
+			sourceTree = "<group>";
+		};
 		C01EDDDA1731553B00AE97B8 = {
 			isa = PBXGroup;
 			children = (
+				BB76818D17EF2EB20098FB08 /* assets */,
 				C08142171797975E00D1BB17 /* CoreText.framework */,
 				C01EDEB81733698D00AE97B8 /* MessageUI.framework */,
 				C01EDEB61733698600AE97B8 /* Social.framework */,
@@ -394,6 +502,8 @@
 		C01EDDE51731553B00AE97B8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BB7681AD17EF3A7D0098FB08 /* libxml2.2.dylib */,
+				BB7681AB17EF37580098FB08 /* libxml2.dylib */,
 				C01EDDE61731553B00AE97B8 /* UIKit.framework */,
 				C01EDDE81731553B00AE97B8 /* Foundation.framework */,
 				C01EDDEA1731553B00AE97B8 /* CoreGraphics.framework */,
@@ -404,6 +514,7 @@
 		C01EDDEC1731553B00AE97B8 /* HackerNews */ = {
 			isa = PBXGroup;
 			children = (
+				BB7681A617EF34FA0098FB08 /* Parser */,
 				6C2DAACC174C971E0069BAE1 /* ShareActivities */,
 				C01EDE091731554E00AE97B8 /* Webservice */,
 				C01EDE0D17315C5700AE97B8 /* Data Objects */,
@@ -439,8 +550,6 @@
 			isa = PBXGroup;
 			children = (
 				C01EDE0A1731557900AE97B8 /* Webservice.h */,
-				BB6ECC7A17ED9C6300C40FE4 /* ItemParser.h */,
-				BB6ECC7B17ED9C6300C40FE4 /* ItemParser.m */,
 				C01EDE0B1731557900AE97B8 /* Webservice.m */,
 				C053BCD317921E4D00BAB3CC /* HNOperation.h */,
 				C053BCD417921E4D00BAB3CC /* HNOperation.m */,
@@ -759,6 +868,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB7681B517EFDB9F0098FB08 /* TFHppleElement.m in Sources */,
 				C01EDDF31731553B00AE97B8 /* main.m in Sources */,
 				C01EDDF71731553B00AE97B8 /* AppDelegate.m in Sources */,
 				C01EDE001731553B00AE97B8 /* ViewController.m in Sources */,
@@ -780,6 +890,7 @@
 				C01EDEB01733553A00AE97B8 /* LinkButton.m in Sources */,
 				C01EDEB41733683200AE97B8 /* NavigationDeckViewController.m in Sources */,
 				C0ABB6221735C777005EA39C /* FailedLoadingView.m in Sources */,
+				BB7681B817EFDBA60098FB08 /* XPathQuery.m in Sources */,
 				C0ABB628173749A0005EA39C /* User.m in Sources */,
 				C0F93FE51739CE1800E47B5E /* ProfileNotLoggedInCell.m in Sources */,
 				C0F93FEB1739D4D100E47B5E /* ProfileLoggedInCell.m in Sources */,
@@ -790,6 +901,7 @@
 				C053BCD517921E4D00BAB3CC /* HNOperation.m in Sources */,
 				C0814216179795DC00D1BB17 /* Link.m in Sources */,
 				C081421B1797979400D1BB17 /* UILabel+LinkDetection.m in Sources */,
+				BB7681B417EFDB9F0098FB08 /* TFHpple.m in Sources */,
 				C0EE6F8317AEDF8E00C97F0B /* AddCommentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -881,10 +993,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HackerNews/HackerNews-Prefix.pch";
+				"HEADER_SEARCH_PATHS[arch=*]" = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "HackerNews/HackerNews-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = "armv7 armv7s i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -898,10 +1013,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HackerNews/HackerNews-Prefix.pch";
+				"HEADER_SEARCH_PATHS[arch=*]" = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "HackerNews/HackerNews-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = "armv7 armv7s i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "AppDelegate.h"
+#import "TFHpple.h"
 
 @interface ViewController () {
     // Home Page UI
@@ -716,10 +717,34 @@
     
     // Determine if using Readability, and load the webpage
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Readability"]) {
-        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.readability.com/m?url=%@", currentPost.link]]]];
+//        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.readability.com/m?url=%@", currentPost.link]]]];
+        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
     }
     else {
-        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
+        
+        
+        // make webview render using local css
+        NSString* myFile = currentPost.link;
+        NSString* myFileURLString = [myFile stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSData *myFileData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:myFileURLString]];
+        NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+        NSString* myFileHtml = [[NSString alloc] initWithData:myFileData encoding:enc];
+        
+        TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:myFileData encoding:@"gbk"];
+        NSArray * elements  = [doc searchWithXPathQuery:@"//div[@class='tpc_content']"];
+        
+        TFHppleElement * element = [elements objectAtIndex:0];
+        [element text];                       // The text inside the HTML element (the content of the first text node)
+        [element tagName];                    // "a"
+        [element attributes];                 // NSDictionary of href, class, id, etc.
+        [element objectForKey:@"href"];       // Easy access to single attribute
+        [element firstChildWithTagName:@"b"]; // The first "b" child node
+        
+        NSString *path = [[NSBundle mainBundle] bundlePath];
+        NSURL *baseURL = [NSURL fileURLWithPath:path];
+        [linkWebView loadHTMLString:[element raw] baseURL:baseURL];
+        
+//        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
     }
 }
 

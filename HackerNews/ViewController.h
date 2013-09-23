@@ -20,6 +20,7 @@
 #import "TUSafariActivity.h"
 #import "UILabel+LinkDetection.h"
 
+
 #define kPad 10
 
 #define kLoadingRectNoSubmit CGRectMake(291,17,20,20)

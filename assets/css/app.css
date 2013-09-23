@@ -1,0 +1,24 @@
+body {
+  padding-top: 10px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.container {
+  width: auto;
+  max-width: 680px;
+}
+
+.article, .comment {
+  padding: 0px 0;
+  border-top: 1px solid #ffdddd;
+}
+
+
+.error {
+  color: #FF2602;
+}
+
+.form-actions {
+  background: #fff;
+  border: 0;
+}
