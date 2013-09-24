@@ -10,6 +10,7 @@
 
 @interface Post : NSObject
 
+@property (nonatomic,retain) NSString *ID;
 @property (nonatomic,retain) NSString *Username;
 @property (nonatomic, retain) NSString *URLString;
 @property (nonatomic, retain) NSString *Title;

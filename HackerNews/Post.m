@@ -10,6 +10,7 @@
 #import "Helpers.h"
 #import "HNSingleton.h"
 #import "ItemParser.h"
+#import <CommonCrypto/CommonDigest.h>
 
 @implementation Post
 
@@ -17,13 +18,14 @@
     Post *newPost = [[Post alloc] init];
     
     // Set Data
-
+    
     newPost.Title = [dict objectForKey:@"title"];
     newPost.Description =[dict objectForKey:@"title"];
     newPost.link =[dict objectForKey:@"link"];
     newPost.author =[dict objectForKey:@"author"];
     newPost.category =[dict objectForKey:@"category"];
     newPost.pubdate =[dict objectForKey:@"pubdate"];
+    newPost.ID = [self getSha1:newPost.Title];
     
 //    newPost.Username = [dict objectForKey:@"username"];
 //    newPost.PostID = [dict objectForKey:@"_id"];
@@ -82,6 +84,23 @@
         }
     }
     return postArray;
+}
+
++ (NSString *)getSha1:(NSString*)input{
+    
+    NSData *data = [input dataUsingEncoding:NSUTF8StringEncoding];
+    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
+    
+    CC_SHA1(data.bytes, data.length, digest);
+    
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    
+    for (int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
+    {
+        [output appendFormat:@"%02x", digest[i]];
+    }
+    
+    return output;
 }
 
 

@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *voteUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *voteDownButton;
 @property (weak, nonatomic) IBOutlet UIView *postActionsView;
+@property (retain, nonatomic) IBOutlet UILabel *descLabel;
 
 -(frontPageCell *)setCellWithPost:(Post *)post atIndex:(NSIndexPath *)indexPath fromController:(UIViewController *)controller;
 

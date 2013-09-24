@@ -33,6 +33,7 @@
     __weak IBOutlet UIWebView *linkWebView;
     IBOutlet UIView *linkView;
 
+    __weak IBOutlet UIActivityIndicatorView *linkViewLoadingIndicator;
     // External Link View
     __weak IBOutlet UIWebView *externalLinkWebView;
     IBOutlet UIView *externalLinkView;
@@ -44,6 +45,8 @@
     
     // Data
     NSMutableArray *homePagePosts;
+    NSMutableDictionary *homePagePostsByFilterID;
+    NSMutableDictionary *homePageIDs;
     NSArray *organizedCommentsArray;
     NSMutableArray *openFrontPageCells;
     Post *currentPost;
@@ -118,6 +121,8 @@
 	
     // Set Up Data
     homePagePosts = [@[] mutableCopy];
+    homePageIDs = [[NSMutableDictionary alloc]init];
+    homePagePostsByFilterID =[[NSMutableDictionary alloc]init];
     organizedCommentsArray = @[];
     openFrontPageCells = [@[] mutableCopy];
     frontPageLastLocation = 0;
@@ -263,7 +268,27 @@
     __block UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] init];
     [Helpers navigationController:self.navigationController addActivityIndicator:&indicator];
     [HNService getHomepageWithFilter:filterString success:^(NSArray *posts) {
-        homePagePosts = [posts mutableCopy];
+
+        NSMutableArray *append = [[NSMutableArray alloc]init];
+        for (Post *one in posts) {
+            if (![homePageIDs valueForKey:one.ID]) {
+                [homePageIDs setValue:@"true" forKey:one.ID];
+                [append addObject:one];
+            }
+        }
+        
+        NSMutableArray *history = [homePagePostsByFilterID objectForKey:filterString];
+        if (history == nil) {
+            history =[[NSMutableArray alloc]init];
+        }
+        [history addObjectsFromArray:[append mutableCopy]];
+        
+        if (!history) {
+            history = [posts mutableCopy];
+        }
+        [homePagePostsByFilterID setObject:history forKey:filterString];
+        homePagePosts = history;
+        
         [frontPageTable reloadData];
         [self endRefreshing:frontPageRefresher];
         indicator.alpha = 0;
@@ -708,6 +733,7 @@
     [self.view addSubview:linkView];
     [self.view bringSubviewToFront:linkView];
     
+    linkViewLoadingIndicator.alpha = 1;
     // Animate it coming in
     [UIView animateWithDuration:0.3 animations:^{
         linkView.frame = CGRectMake(0, 0, linkView.frame.size.width, linkView.frame.size.height);
@@ -724,19 +750,56 @@
             
             TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:myFileData encoding:@"gbk"];
             NSArray * elements  = [doc searchWithXPathQuery:@"//div[@class='tpc_content']"];
-            
+            NSArray * autherElements  = [doc searchWithXPathQuery:@"//th[@class='r_two']"];
             if(elements && elements.count>0){
                 TFHppleElement * element = [elements objectAtIndex:0];
                 NSString *path = [[NSBundle mainBundle] bundlePath];
                 NSURL *baseURL = [NSURL fileURLWithPath:path];
-                NSString *template = @"<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:fb=\"https://www.facebook.com/2008/fbml\" itemscope=\"itemscope\" itemtype=\"http://schema.org/Product\"><head prefix=\"og: http://ogp.me/ns# nodejsexpressdemo: http://ogp.me/ns/apps/nodejsexpressdemo#\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><title>detail</title><meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\"><meta name=\"keywords\" content=\"test\"><meta name=\"description\" content=\"test\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link href=\"bootstrap.min.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"bootstrap-responsive.min.css\"><link href=\"prettify.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"app.css\"></head><body data-spy=\"scroll\" data-target=\".bs-docs-sidebar\"><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\">__CONTENT_TO_BE_REPLACED__</div></div></div></body></html>";
-                NSString *rendered =  [template stringByReplacingOccurrencesOfString:@"__CONTENT_TO_BE_REPLACED__" withString:[element raw]];
+                NSString *template = @"<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:fb=\"https://www.facebook.com/2008/fbml\" itemscope=\"itemscope\" itemtype=\"http://schema.org/Product\"><head prefix=\"og: http://ogp.me/ns# nodejsexpressdemo: http://ogp.me/ns/apps/nodejsexpressdemo#\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><title>detail</title><meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\"><meta name=\"keywords\" content=\"test\"><meta name=\"description\" content=\"test\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link href=\"bootstrap.min.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"bootstrap-responsive.min.css\"><link href=\"prettify.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"app.css\"></head><body data-spy=\"scroll\" data-target=\".bs-docs-sidebar\"><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\"><div class=\"row-fluid\"><ul class=\"container\">__AUTHER_TO_BE_REPLACED__</ul></div></div></div></div></br></br><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\">__CONTENT_TO_BE_REPLACED__</div></div></div><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\"><p>精彩评论</p>__COMMENT_CONTENT_TO_BE_REPLACED__</div></div></div></body></html>";
+              
+                NSError *error = NULL;
+                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"input\\stype=['|\"]image['|\"]" options:NSRegularExpressionCaseInsensitive error:&error];
+                
+                NSString *modifiedString = [regex stringByReplacingMatchesInString:[element raw] options:0 range:NSMakeRange(0, [[element raw] length]) withTemplate:@"img style=\"cursor:pointer\""];
+              
+                NSString *rendered =  [template stringByReplacingOccurrencesOfString:@"__CONTENT_TO_BE_REPLACED__" withString:modifiedString];
+                
+                if (autherElements && autherElements.count>0) {
+                    TFHppleElement * autherelement = [autherElements objectAtIndex:0];
+                     rendered =  [rendered stringByReplacingOccurrencesOfString:@"__AUTHER_TO_BE_REPLACED__" withString:[autherelement raw]];
+                }else{
+                    rendered =  [rendered stringByReplacingOccurrencesOfString:@"__AUTHER_TO_BE_REPLACED__" withString:currentPost.author];
+                }
+                NSMutableString *commentsTobeReplaced = [@"" mutableCopy];
+                
+                for (int i=1;i<elements.count;i++) {
+                    [commentsTobeReplaced appendString:@"<div class=\"row-fluid\">"];
+                    [commentsTobeReplaced appendString:@"<div class=\"span12\">"];
+                    if (i < autherElements.count-1) {
+//                         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"width=['|\"]\\d+%['|\"]\\srowspan=['|\"]\\d+['|\"]\\sclass=['|\"]r_two['|\"]" options:NSRegularExpressionCaseInsensitive error:&error];
+//                        [commentsTobeReplaced appendString:[regex stringByReplacingMatchesInString:[autherElements[i] raw] options:0 range:NSMakeRange(0, [[autherElements[i] raw] length]) withTemplate:@"width=\"100%\""]];
+                        [commentsTobeReplaced appendString:[autherElements[i] raw]];
+                    }
+                    [commentsTobeReplaced appendString:@"</div><div class=\"span12\"><strong>"];
+                    [commentsTobeReplaced appendString:[elements[i] raw]];
+                    [commentsTobeReplaced appendString:@"</strong></div>"];
+                    [commentsTobeReplaced appendString:@"</div><br></br>"];
+                }
+                
+                if (commentsTobeReplaced.length>0) {
+                        rendered =  [rendered stringByReplacingOccurrencesOfString:@"__COMMENT_CONTENT_TO_BE_REPLACED__" withString:commentsTobeReplaced];
+                }else{
+                    rendered =  [rendered stringByReplacingOccurrencesOfString:@"__COMMENT_CONTENT_TO_BE_REPLACED__" withString:@""];
+                }
+                
                 [linkWebView loadHTMLString:rendered baseURL:baseURL];
+                linkViewLoadingIndicator.alpha = 0;
             }else{
+                    linkViewLoadingIndicator.alpha = 0;
                 [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
             }
         }else {
-            
+                linkViewLoadingIndicator.alpha = 0;
             [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
         }
     }];

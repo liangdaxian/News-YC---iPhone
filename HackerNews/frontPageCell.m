@@ -46,10 +46,11 @@
     if (post) {
         // Set data
         self.titleLabel.text = post.Title;
-        NSString *timeAgo = post.TimeCreated ? [Helpers timeAgoStringForDate:post.TimeCreated] : post.TimeCreatedString;
-        self.postedTimeLabel.text = [NSString stringWithFormat:@"%@ by %@", timeAgo, post.Username];
+        NSString *timeAgo = post.pubdate;
+        self.postedTimeLabel.text = [NSString stringWithFormat:@"%@", timeAgo];
         self.commentsLabel.text = [NSString stringWithFormat:@"%d", post.CommentCount];
-        self.scoreLabel.text = [NSString stringWithFormat:@"%d Point%@", post.Points, post.Points == 1 ? @"" : @"s"];
+        self.scoreLabel.text = post.author;
+        
         self.commentTagButton.tag = indexPath.row;
         self.commentBGButton.tag = indexPath.row;
         [self.commentTagButton addTarget:controller action:@selector(didClickCommentsFromHomepage:) forControlEvents:UIControlEventTouchUpInside];
