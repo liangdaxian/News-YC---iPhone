@@ -155,6 +155,11 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentCellTapGesture:)];
     tapGesture.delegate = self;
     [commentsTable addGestureRecognizer:tapGesture];
+   
+    UnpreventableUILongPressGestureRecognizer *longPressRecognizer = [[UnpreventableUILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    longPressRecognizer.allowableMovement = 20;
+    longPressRecognizer.minimumPressDuration = 1.0f;
+    [linkWebView addGestureRecognizer:longPressRecognizer];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -265,6 +270,13 @@
 
 #pragma mark - Load HomePage
 -(void)loadHomepage {
+    
+    NSMutableArray *history = [homePagePostsByFilterID objectForKey:filterString];
+    if (history != nil) {
+         homePagePosts = history;
+        [frontPageTable reloadData];
+    }
+    
     __block UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] init];
     [Helpers navigationController:self.navigationController addActivityIndicator:&indicator];
     [HNService getHomepageWithFilter:filterString success:^(NSArray *posts) {
@@ -281,13 +293,14 @@
         if (history == nil) {
             history =[[NSMutableArray alloc]init];
         }
-        [history addObjectsFromArray:[append mutableCopy]];
+        // append history to current posts
+        [append addObjectsFromArray:[history mutableCopy]];
         
-        if (!history) {
-            history = [posts mutableCopy];
+        if (!append) {
+            append = [posts mutableCopy];
         }
-        [homePagePostsByFilterID setObject:history forKey:filterString];
-        homePagePosts = history;
+        [homePagePostsByFilterID setObject:append forKey:filterString];
+        homePagePosts = append;
         
         [frontPageTable reloadData];
         [self endRefreshing:frontPageRefresher];
@@ -740,70 +753,216 @@
     } completion:^(BOOL finished) {
         [self.navigationController setNavigationBarHidden:YES animated:YES];
         
+        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:linkView action:@selector(doubleTap:)];
+        doubleTap.numberOfTouchesRequired = 2;
+        [linkView addGestureRecognizer:doubleTap];
+        [linkWebView addGestureRecognizer:doubleTap];
+        
         // Determine if using Readability, and load the webpage
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Readability"]) {
             
             // make webview render using local css
             NSString* myFile = currentPost.link;
             NSString* myFileURLString = [myFile stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            NSData *myFileData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:myFileURLString]];
-            
-            TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:myFileData encoding:@"gbk"];
-            NSArray * elements  = [doc searchWithXPathQuery:@"//div[@class='tpc_content']"];
-            NSArray * autherElements  = [doc searchWithXPathQuery:@"//th[@class='r_two']"];
-            if(elements && elements.count>0){
-                TFHppleElement * element = [elements objectAtIndex:0];
-                NSString *path = [[NSBundle mainBundle] bundlePath];
-                NSURL *baseURL = [NSURL fileURLWithPath:path];
-                NSString *template = @"<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:fb=\"https://www.facebook.com/2008/fbml\" itemscope=\"itemscope\" itemtype=\"http://schema.org/Product\"><head prefix=\"og: http://ogp.me/ns# nodejsexpressdemo: http://ogp.me/ns/apps/nodejsexpressdemo#\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><title>detail</title><meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\"><meta name=\"keywords\" content=\"test\"><meta name=\"description\" content=\"test\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link href=\"bootstrap.min.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"bootstrap-responsive.min.css\"><link href=\"prettify.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"app.css\"></head><body data-spy=\"scroll\" data-target=\".bs-docs-sidebar\"><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\"><div class=\"row-fluid\"><ul class=\"container\">__AUTHER_TO_BE_REPLACED__</ul></div></div></div></div></br></br><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\">__CONTENT_TO_BE_REPLACED__</div></div></div><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\"><p>精彩评论</p>__COMMENT_CONTENT_TO_BE_REPLACED__</div></div></div></body></html>";
-              
-                NSError *error = NULL;
-                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"input\\stype=['|\"]image['|\"]" options:NSRegularExpressionCaseInsensitive error:&error];
-                
-                NSString *modifiedString = [regex stringByReplacingMatchesInString:[element raw] options:0 range:NSMakeRange(0, [[element raw] length]) withTemplate:@"img style=\"cursor:pointer\""];
-              
-                NSString *rendered =  [template stringByReplacingOccurrencesOfString:@"__CONTENT_TO_BE_REPLACED__" withString:modifiedString];
-                
-                if (autherElements && autherElements.count>0) {
-                    TFHppleElement * autherelement = [autherElements objectAtIndex:0];
-                     rendered =  [rendered stringByReplacingOccurrencesOfString:@"__AUTHER_TO_BE_REPLACED__" withString:[autherelement raw]];
-                }else{
-                    rendered =  [rendered stringByReplacingOccurrencesOfString:@"__AUTHER_TO_BE_REPLACED__" withString:currentPost.author];
-                }
-                NSMutableString *commentsTobeReplaced = [@"" mutableCopy];
-                
-                for (int i=1;i<elements.count;i++) {
-                    [commentsTobeReplaced appendString:@"<div class=\"row-fluid\">"];
-                    [commentsTobeReplaced appendString:@"<div class=\"span12\">"];
-                    if (i < autherElements.count-1) {
-//                         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"width=['|\"]\\d+%['|\"]\\srowspan=['|\"]\\d+['|\"]\\sclass=['|\"]r_two['|\"]" options:NSRegularExpressionCaseInsensitive error:&error];
-//                        [commentsTobeReplaced appendString:[regex stringByReplacingMatchesInString:[autherElements[i] raw] options:0 range:NSMakeRange(0, [[autherElements[i] raw] length]) withTemplate:@"width=\"100%\""]];
-                        [commentsTobeReplaced appendString:[autherElements[i] raw]];
-                    }
-                    [commentsTobeReplaced appendString:@"</div><div class=\"span12\"><strong>"];
-                    [commentsTobeReplaced appendString:[elements[i] raw]];
-                    [commentsTobeReplaced appendString:@"</strong></div>"];
-                    [commentsTobeReplaced appendString:@"</div><br></br>"];
-                }
-                
-                if (commentsTobeReplaced.length>0) {
-                        rendered =  [rendered stringByReplacingOccurrencesOfString:@"__COMMENT_CONTENT_TO_BE_REPLACED__" withString:commentsTobeReplaced];
-                }else{
-                    rendered =  [rendered stringByReplacingOccurrencesOfString:@"__COMMENT_CONTENT_TO_BE_REPLACED__" withString:@""];
-                }
-                
-                [linkWebView loadHTMLString:rendered baseURL:baseURL];
-                linkViewLoadingIndicator.alpha = 0;
-            }else{
-                    linkViewLoadingIndicator.alpha = 0;
-                [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
-            }
+
+            [self ayncLoadHttpRequest:myFileURLString];
+           
         }else {
-                linkViewLoadingIndicator.alpha = 0;
+            linkViewLoadingIndicator.alpha = 0;
             [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
         }
     }];
     }
+
+#pragma mark - aync load http request
+
+NSMutableData *responseData;
+
+- (void)ayncLoadHttpRequest:(NSString*)urlString
+{
+    
+    NSURL *myURL = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:myURL cachePolicy:NSURLCacheStorageAllowed timeoutInterval:60];
+    
+    [NSURLConnection connectionWithRequest:request delegate:self];
+
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    responseData = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [responseData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [FailedLoadingView launchFailedLoadingInView:self.view];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    
+    TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:responseData encoding:@"gbk"];
+    NSArray * elements  = [doc searchWithXPathQuery:@"//div[@class='tpc_content']"];
+    NSArray * autherElements  = [doc searchWithXPathQuery:@"//th[@class='r_two']"];
+    if(elements && elements.count>0){
+        TFHppleElement * element = [elements objectAtIndex:0];
+        NSString *path = [[NSBundle mainBundle] bundlePath];
+        NSURL *baseURL = [NSURL fileURLWithPath:path];
+        NSString *template = @"<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:fb=\"https://www.facebook.com/2008/fbml\" itemscope=\"itemscope\" itemtype=\"http://schema.org/Product\"><head prefix=\"og: http://ogp.me/ns# nodejsexpressdemo: http://ogp.me/ns/apps/nodejsexpressdemo#\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><title>detail</title><meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\"><meta name=\"keywords\" content=\"test\"><meta name=\"description\" content=\"test\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link href=\"bootstrap.min.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"bootstrap-responsive.min.css\"><link href=\"prettify.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"app.css\"></head><body data-spy=\"scroll\" data-target=\".bs-docs-sidebar\"><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\"><div class=\"row-fluid\"><ul class=\"container\">__AUTHER_TO_BE_REPLACED__</ul></div></div></div></div></br></br><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\">__CONTENT_TO_BE_REPLACED__</div></div></div><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\"><p>精彩评论</p>__COMMENT_CONTENT_TO_BE_REPLACED__</div></div></div></body></html>";
+        
+        NSError *error = NULL;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"input\\stype=['|\"]image['|\"]" options:NSRegularExpressionCaseInsensitive error:&error];
+        NSRegularExpression *regexOfOnClick = [NSRegularExpression regularExpressionWithPattern:@"onclick=\"[^\"]*;return false;\"" options:NSRegularExpressionCaseInsensitive error:&error];
+        
+        NSString *modifiedString = [regex stringByReplacingMatchesInString:[element raw] options:0 range:NSMakeRange(0, [[element raw] length]) withTemplate:@"img style=\"cursor:pointer\""];
+        
+        modifiedString = [regexOfOnClick stringByReplacingMatchesInString:modifiedString options:0 range:NSMakeRange(0, [modifiedString length]) withTemplate:@""];
+        
+        NSString *rendered =  [template stringByReplacingOccurrencesOfString:@"__CONTENT_TO_BE_REPLACED__" withString:modifiedString];
+        
+        if (autherElements && autherElements.count>0) {
+            TFHppleElement * autherelement = [autherElements objectAtIndex:0];
+            rendered =  [rendered stringByReplacingOccurrencesOfString:@"__AUTHER_TO_BE_REPLACED__" withString:[autherelement raw]];
+        }else{
+            rendered =  [rendered stringByReplacingOccurrencesOfString:@"__AUTHER_TO_BE_REPLACED__" withString:currentPost.author];
+        }
+        NSMutableString *commentsTobeReplaced = [@"" mutableCopy];
+        
+        for (int i=1;i<elements.count;i++) {
+            [commentsTobeReplaced appendString:@"<div class=\"row-fluid\">"];
+            [commentsTobeReplaced appendString:@"<div class=\"span12\">"];
+            if (i < autherElements.count-1) {
+                //                         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"width=['|\"]\\d+%['|\"]\\srowspan=['|\"]\\d+['|\"]\\sclass=['|\"]r_two['|\"]" options:NSRegularExpressionCaseInsensitive error:&error];
+                //                        [commentsTobeReplaced appendString:[regex stringByReplacingMatchesInString:[autherElements[i] raw] options:0 range:NSMakeRange(0, [[autherElements[i] raw] length]) withTemplate:@"width=\"100%\""]];
+                [commentsTobeReplaced appendString:[autherElements[i] raw]];
+            }
+            [commentsTobeReplaced appendString:@"</div><div class=\"span12\"><strong>"];
+            [commentsTobeReplaced appendString:[elements[i] raw]];
+            [commentsTobeReplaced appendString:@"</strong></div>"];
+            [commentsTobeReplaced appendString:@"</div><br></br>"];
+        }
+        
+        if (commentsTobeReplaced.length>0) {
+            rendered =  [rendered stringByReplacingOccurrencesOfString:@"__COMMENT_CONTENT_TO_BE_REPLACED__" withString:commentsTobeReplaced];
+        }else{
+            rendered =  [rendered stringByReplacingOccurrencesOfString:@"__COMMENT_CONTENT_TO_BE_REPLACED__" withString:@""];
+        }
+        
+        [linkWebView loadHTMLString:rendered baseURL:baseURL];
+        linkViewLoadingIndicator.alpha = 0;
+    }else{
+        linkViewLoadingIndicator.alpha = 0;
+        [linkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentPost.link]]];
+    }
+    
+
+}
+
+
+UIActionSheet *_actionActionSheet;
+NSString *selectedImageURL;
+
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        
+        //  <Find HTML tag which was clicked by user>
+        //  <If tag is IMG, then get image URL and start saving>
+        
+        CGPoint pt = [gestureRecognizer locationInView:linkWebView];
+        
+        CGSize viewSize = [linkWebView frame].size;
+        CGSize windowSize;
+        windowSize.width = [[linkWebView stringByEvaluatingJavaScriptFromString:@"window.innerWidth"] integerValue];
+        windowSize.height = [[linkWebView stringByEvaluatingJavaScriptFromString:@"window.innerHeight"] integerValue];
+       
+       
+        
+        CGFloat f = windowSize.width / viewSize.width;
+        
+        if ([[[UIDevice currentDevice] systemVersion] doubleValue] >= 5.0) {
+            pt.x = pt.x * f;
+            pt.y = pt.y * f;
+        } else {
+            // On iOS 4 and previous, document.elementFromPoint is not taking
+            // offset into account, we have to handle it
+            CGPoint offsetpt;
+            offsetpt.x = [[linkWebView stringByEvaluatingJavaScriptFromString:@"window.pageXOffset"] integerValue];
+            offsetpt.y = [[linkWebView stringByEvaluatingJavaScriptFromString:@"window.pageYOffset"] integerValue];
+            pt.x = pt.x * f + offsetpt.x;
+            pt.y = pt.y * f + offsetpt.y;
+        }
+        
+        NSString *js = [NSString stringWithFormat:@"document.elementFromPoint(%f, %f).tagName", pt.x, pt.y];
+      
+        NSString * tagName = [linkWebView stringByEvaluatingJavaScriptFromString:js];
+        if ([tagName isEqualToString:@"img"] || [tagName isEqualToString:@"IMG"]) {
+            NSString *imgURL = [NSString stringWithFormat:@"document.elementFromPoint(%f, %f).src", pt.x, pt.y];
+            NSString *urlToSave = [linkWebView stringByEvaluatingJavaScriptFromString:imgURL];
+            NSLog(@"image url=%@", urlToSave);
+            selectedImageURL = urlToSave;
+            [self openContextualMenuAt:pt];
+          
+        }
+    }
+}
+
+- (void)openContextualMenuAt:(CGPoint)pt{
+    // Load the JavaScript code from the Resources and inject it into the web page
+    
+    if (!_actionActionSheet) {
+        _actionActionSheet = nil;
+    }
+    _actionActionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                     delegate:self
+                                            cancelButtonTitle:nil
+                                       destructiveButtonTitle:nil
+                                            otherButtonTitles:nil];
+    
+    [_actionActionSheet addButtonWithTitle:@"Save Image"];
+    [_actionActionSheet addButtonWithTitle:@"Copy Image"];
+    [_actionActionSheet addButtonWithTitle:@"Cancel"];
+    [_actionActionSheet showInView:linkView];
+    
+}
+
+
+#pragma UIActionSheetDelegate
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Copy Image"]){
+        
+        NSOperationQueue *queue = [NSOperationQueue new];
+        NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
+                                                                                selector:@selector(copyImage:) object:selectedImageURL];
+        [queue addOperation:operation];
+    }
+    else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Save Image"]){
+        NSOperationQueue *queue = [NSOperationQueue new];
+        NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
+                                                                                selector:@selector(saveImageURL:) object:selectedImageURL];
+        [queue addOperation:operation];
+    }
+}
+
+
+-(void)copyImage:(NSString*)url{
+    
+    NSURL *iUrl = [NSURL URLWithString:url];
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:iUrl]];
+    [[UIPasteboard generalPasteboard] setImage:image];
+    
+}
+-(void)saveImageURL:(NSString*)url{
+    
+    UIImageWriteToSavedPhotosAlbum([UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]], nil, nil, nil);
+  
+}
 
 
 #pragma mark - External Link View

@@ -126,7 +126,7 @@
                     <color key="backgroundColor" white="0.66830708660000004" alpha="1" colorSpace="calibratedWhite"/>
                     <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES"/>
                     <connections>
-                        <outlet property="delegate" destination="-1" id="141"/>
+                        <outlet property="delegate" destination="-1" id="200-Xd-tbQ"/>
                     </connections>
                 </webView>
                 <view contentMode="scaleToFill" id="12">

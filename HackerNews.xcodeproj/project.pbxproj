@@ -37,6 +37,7 @@
 		6C2DAB09174C9C2E0069BAE1 /* vi.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 6C2DAAF1174C9C2E0069BAE1 /* vi.lproj */; };
 		6C2DAB0A174C9C2E0069BAE1 /* zh_CN.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 6C2DAAF2174C9C2E0069BAE1 /* zh_CN.lproj */; };
 		6C7410C61751C09A0027C09C /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C7410C51751C09A0027C09C /* share.png */; };
+		BB40422817F9593700FA1077 /* UnpreventableUILongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = BB40422717F9593700FA1077 /* UnpreventableUILongPressGestureRecognizer.m */; };
 		BB6ECC7C17ED9C6300C40FE4 /* ItemParser.m in Sources */ = {isa = PBXBuildFile; fileRef = BB6ECC7B17ED9C6300C40FE4 /* ItemParser.m */; };
 		BB7681AF17EFD6D60098FB08 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB7681AB17EF37580098FB08 /* libxml2.dylib */; };
 		BB7681B417EFDB9F0098FB08 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = BB7681B117EFDB9F0098FB08 /* TFHpple.m */; };
@@ -187,6 +188,8 @@
 		6C2DAAF1174C9C2E0069BAE1 /* vi.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = vi.lproj; path = TUSafariActivity/vi.lproj; sourceTree = "<group>"; };
 		6C2DAAF2174C9C2E0069BAE1 /* zh_CN.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = zh_CN.lproj; path = TUSafariActivity/zh_CN.lproj; sourceTree = "<group>"; };
 		6C7410C51751C09A0027C09C /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
+		BB40422617F9593700FA1077 /* UnpreventableUILongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnpreventableUILongPressGestureRecognizer.h; sourceTree = "<group>"; };
+		BB40422717F9593700FA1077 /* UnpreventableUILongPressGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnpreventableUILongPressGestureRecognizer.m; sourceTree = "<group>"; };
 		BB6ECC7A17ED9C6300C40FE4 /* ItemParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemParser.h; sourceTree = "<group>"; };
 		BB6ECC7B17ED9C6300C40FE4 /* ItemParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemParser.m; sourceTree = "<group>"; };
 		BB76818F17EF2EB20098FB08 /* app.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = app.css; sourceTree = "<group>"; };
@@ -610,6 +613,8 @@
 				C0EE6F8017AEDF8E00C97F0B /* AddCommentView.h */,
 				C0EE6F8117AEDF8E00C97F0B /* AddCommentView.m */,
 				C0EE6F8417AEDFCC00C97F0B /* AddCommentView.xib */,
+				BB40422617F9593700FA1077 /* UnpreventableUILongPressGestureRecognizer.h */,
+				BB40422717F9593700FA1077 /* UnpreventableUILongPressGestureRecognizer.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -924,6 +929,7 @@
 				6C2DAAD3174C977B0069BAE1 /* ARChromeActivity.m in Sources */,
 				6C2DAB08174C9C2E0069BAE1 /* TUSafariActivity.m in Sources */,
 				C053BCD517921E4D00BAB3CC /* HNOperation.m in Sources */,
+				BB40422817F9593700FA1077 /* UnpreventableUILongPressGestureRecognizer.m in Sources */,
 				C0814216179795DC00D1BB17 /* Link.m in Sources */,
 				C081421B1797979400D1BB17 /* UILabel+LinkDetection.m in Sources */,
 				BB7681B417EFDB9F0098FB08 /* TFHpple.m in Sources */,

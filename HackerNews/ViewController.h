@@ -19,7 +19,7 @@
 #import "ARChromeActivity.h"
 #import "TUSafariActivity.h"
 #import "UILabel+LinkDetection.h"
-
+#import "UnpreventableUILongPressGestureRecognizer.h"
 
 #define kPad 10
 
@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, FilterType) {
     FilterTypeHttpDownload
 };
 
-@interface ViewController : UIViewController <WebserviceDelegate, UITableViewDataSource, UITableViewDelegate,UIWebViewDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate>
+@interface ViewController : UIViewController <WebserviceDelegate, UITableViewDataSource, UITableViewDelegate,UIWebViewDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate>
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil filterType:(FilterType)type;
 
