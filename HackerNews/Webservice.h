@@ -50,7 +50,8 @@ typedef void (^SubmitLinkFailureBlock)();
 @property (nonatomic, assign) BOOL isLoadingFromFNID;
 
 // Methods
--(void)getHomepageWithFilter:(NSString *)filter success:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure;
+-(void)getHomepageWithFilter:(NSString *)filter withAddressNO:(int)address success:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure;
+-(void)getHomepageWithFilter:(NSString *)filter withAddress:(NSString*)address success:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure;
 -(void)getHomepageFromFnid:(NSString *)fnid withSuccess:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure;
 -(void)getCommentsForPost:(Post *)post success:(GetCommentsSuccessBlock)success failure:(GetCommentsFailureBlock)failure;
 -(void)loginWithUsername:(NSString *)user password:(NSString *)pass;

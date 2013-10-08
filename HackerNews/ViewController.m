@@ -54,6 +54,7 @@
     float commentsLastLocation;
     int scrollDirection;
     NSString *filterString;
+    int address;
 }
 
 // Change Theme
@@ -108,6 +109,74 @@
                 break;
         }
     }
+    return self;
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil filterType:(FilterType)type address:(AddressType)addr
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.addressType = addr;
+        switch (addr) {
+            case AddressType1:
+                address = 1;
+                break;
+            case AddressType2:
+                address = 2;
+                break;
+            case AddressType3:
+                address = 3;
+                break;
+            case AddressType4:
+                address = 4;
+                break;
+            case AddressType5:
+                address = 5;
+                break;
+            case AddressType6:
+                address = 6;
+            default:
+                address = 0;
+                break;
+        }
+    }
+    if (self) {
+        self.filterType = type;
+        switch (type) {
+            case FilterTypeDiscuss:
+                filterString = @"7";
+                break;
+            case FilterTypeNewUs:
+                filterString = @"8";
+                break;
+            case FilterTypeFlag:
+                filterString = @"16";
+                break;
+            case FilterTypeNovel:
+                filterString = @"20";
+                break;
+            case FilterTypeAsiaNo:
+                filterString = @"2";
+                break;
+            case FilterTypeAsiaYes:
+                filterString = @"15";
+                break;
+            case FilterTypeAmerica:
+                filterString = @"4";
+                break;
+            case FilterTypeComic:
+                filterString = @"5";
+                break;
+            case FilterTypeHttpDownload:
+                filterString = @"21";
+                break;
+            default:
+                filterString = @"7";
+                self.filterType = 0;
+                break;
+        }
+    }
+
     return self;
 }
 
@@ -279,7 +348,7 @@
     
     __block UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] init];
     [Helpers navigationController:self.navigationController addActivityIndicator:&indicator];
-    [HNService getHomepageWithFilter:filterString success:^(NSArray *posts) {
+    [HNService getHomepageWithFilter:filterString withAddressNO: address success:^(NSArray *posts) {
 
         NSMutableArray *append = [[NSMutableArray alloc]init];
         for (Post *one in posts) {
@@ -813,11 +882,11 @@ NSMutableData *responseData;
         TFHppleElement * element = [elements objectAtIndex:0];
         NSString *path = [[NSBundle mainBundle] bundlePath];
         NSURL *baseURL = [NSURL fileURLWithPath:path];
-        NSString *template = @"<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:fb=\"https://www.facebook.com/2008/fbml\" itemscope=\"itemscope\" itemtype=\"http://schema.org/Product\"><head prefix=\"og: http://ogp.me/ns# nodejsexpressdemo: http://ogp.me/ns/apps/nodejsexpressdemo#\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><title>detail</title><meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\"><meta name=\"keywords\" content=\"test\"><meta name=\"description\" content=\"test\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link href=\"bootstrap.min.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"bootstrap-responsive.min.css\"><link href=\"prettify.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"app.css\"></head><body data-spy=\"scroll\" data-target=\".bs-docs-sidebar\"><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\"><div class=\"row-fluid\"><ul class=\"container\">__AUTHER_TO_BE_REPLACED__</ul></div></div></div></div></br></br><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\">__CONTENT_TO_BE_REPLACED__</div></div></div><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\"><p>精彩评论</p>__COMMENT_CONTENT_TO_BE_REPLACED__</div></div></div></body></html>";
+        NSString *template = @"<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:fb=\"https://www.facebook.com/2008/fbml\" itemscope=\"itemscope\" itemtype=\"http://schema.org/Product\"><head prefix=\"og: http://ogp.me/ns# nodejsexpressdemo: http://ogp.me/ns/apps/nodejsexpressdemo#\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><title>detail</title><meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\"><meta name=\"keywords\" content=\"test\"><meta name=\"description\" content=\"test\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link href=\"bootstrap.min.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"bootstrap-responsive.min.css\"><link href=\"prettify.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"app.css\"></head><body data-spy=\"scroll\" data-target=\".bs-docs-sidebar\"><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\">__CONTENT_TO_BE_REPLACED__</div></div></div><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\"><div class=\"row-fluid\"><ul class=\"container\"><h4>Author:</h4>__AUTHER_TO_BE_REPLACED__</ul></div></div></div></div></br></br><div class=\"wrapper\"><div class=\"container\"><div class=\"main-content\"><div class=\"main-head\"><h4> Comments:</h4>__COMMENT_CONTENT_TO_BE_REPLACED__</div></div></div></body></html>";
         
         NSError *error = NULL;
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"input\\stype=['|\"]image['|\"]" options:NSRegularExpressionCaseInsensitive error:&error];
-        NSRegularExpression *regexOfOnClick = [NSRegularExpression regularExpressionWithPattern:@"onclick=\"[^\"]*;return false;\"" options:NSRegularExpressionCaseInsensitive error:&error];
+        NSRegularExpression *regexOfOnClick = [NSRegularExpression regularExpressionWithPattern:@"onclick=\"[^\"]*;\"" options:NSRegularExpressionCaseInsensitive error:&error];
         
         NSString *modifiedString = [regex stringByReplacingMatchesInString:[element raw] options:0 range:NSMakeRange(0, [[element raw] length]) withTemplate:@"img style=\"cursor:pointer\""];
         
@@ -841,9 +910,9 @@ NSMutableData *responseData;
                 //                        [commentsTobeReplaced appendString:[regex stringByReplacingMatchesInString:[autherElements[i] raw] options:0 range:NSMakeRange(0, [[autherElements[i] raw] length]) withTemplate:@"width=\"100%\""]];
                 [commentsTobeReplaced appendString:[autherElements[i] raw]];
             }
-            [commentsTobeReplaced appendString:@"</div><div class=\"span12\"><strong>"];
+            [commentsTobeReplaced appendString:@"</div><div class=\"span12\"><p class=\"text-success\">"];
             [commentsTobeReplaced appendString:[elements[i] raw]];
-            [commentsTobeReplaced appendString:@"</strong></div>"];
+            [commentsTobeReplaced appendString:@"</p></div>"];
             [commentsTobeReplaced appendString:@"</div><br></br>"];
         }
         

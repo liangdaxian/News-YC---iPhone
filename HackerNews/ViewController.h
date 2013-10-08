@@ -38,10 +38,20 @@ typedef NS_ENUM(NSInteger, FilterType) {
     FilterTypeHttpDownload
 };
 
+typedef NS_ENUM(NSInteger, AddressType) {
+    AddressType1,
+    AddressType2,
+    AddressType3,
+    AddressType4,
+    AddressType5,
+    AddressType6
+};
+
 @interface ViewController : UIViewController <WebserviceDelegate, UITableViewDataSource, UITableViewDelegate,UIWebViewDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate>
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil filterType:(FilterType)type;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil filterType:(FilterType)type address:(AddressType)addr;
 
 @property (nonatomic, assign) FilterType filterType;
-
+@property (nonatomic, assign) AddressType addressType;
 @end

@@ -79,7 +79,7 @@ static HNSingleton * _sharedHNSingleton = nil;
     }
     else {
         NSLog(@"%@", [[NSUserDefaults standardUserDefaults] stringForKey:@"Theme"]);
-        [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.95 alpha:1.0] forKey:@"CellBG"];
+        [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:1.0 alpha:1.0] forKey:@"CellBG"];
         [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.4 alpha:1.0] forKey:@"MainFont"];
         [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.20 alpha:1.0] forKey:@"SubFont"];
         [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.75 alpha:1.0] forKey:@"BottomBar"];

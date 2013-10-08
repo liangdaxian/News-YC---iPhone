@@ -9,6 +9,7 @@
 #import "Webservice.h"
 #import "HNSingleton.h"
 #import "HNOperation.h"
+#import "TFHpple.h"
 
 @implementation Webservice
 @synthesize delegate;
@@ -58,9 +59,9 @@
 }
  */
 
--(void)getHomepageWithFilter:(NSString *)filter success:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure {
+-(void)getHomepageWithFilter:(NSString *)filter withAddress:(NSString*)address success:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure {
     HNOperation *operation = [[HNOperation alloc] init];
-    NSString *addr =@"http://zhangfei.info/rss.php?fid=%@";
+    NSString *addr = address;
     __weak HNOperation *weakOp = operation;
     NSString *urlString=[[NSString stringWithFormat: addr,filter] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
@@ -78,6 +79,31 @@
                 failure();
             });
         }
+    }];
+    [self.HNOperationQueue addOperation:operation];
+}
+
+-(void)getHomepageWithFilter:(NSString *)filter withAddressNO:(int)address success:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure{
+    HNOperation *operation = [[HNOperation alloc] init];
+    
+    NSString *addr =@"http://1024z.site44.com/";
+    __weak HNOperation *weakOp = operation;
+    
+    NSString *urlString=[addr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    [operation setUrlPath:urlString data:nil completion:^{
+        NSString *addr1024 = @"http://wo.yao.cl/rss.php?fid=%@";// default
+        
+        TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:weakOp.responseData encoding:@"utf-16"];
+        
+        NSArray * elements  = [doc searchWithXPathQuery:@"//a[@target='_blank']"];
+        if (elements && elements.count>0 && address<elements.count) {
+            NSURL* url = [NSURL URLWithString:[elements[address] objectForKey:@"href"]];
+            addr1024 = [[@"http://" stringByAppendingString:url.host] stringByAppendingString:@"/rss.php?fid=%@"];
+        }
+        
+        [self getHomepageWithFilter:filter withAddress:addr1024 success:success failure:failure];
+        
     }];
     [self.HNOperationQueue addOperation:operation];
 }

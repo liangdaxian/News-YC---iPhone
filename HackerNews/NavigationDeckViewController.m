@@ -8,8 +8,10 @@
 
 #import "NavigationDeckViewController.h"
 
-@interface NavigationDeckViewController ()
-
+@interface NavigationDeckViewController (){
+    int currentFilterNO;
+    int currentAddrNO;
+}
 @end
 
 @implementation NavigationDeckViewController
@@ -46,7 +48,19 @@
 }
 
 - (void)filterHomePageWithType:(int)type {
-    ViewController *vc = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil filterType:type];
+    currentFilterNO = type;
+    currentAddrNO = currentAddrNO >= 0 ? currentAddrNO : 0;
+    ViewController *vc = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil filterType:currentFilterNO address:currentAddrNO];
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [del.deckController setCenterController:[[UINavigationController alloc] initWithRootViewController:vc]];
+    [self.viewDeckController toggleLeftView];
+}
+
+
+- (void)setUpAddressWithAddrID:(int)addr {
+    currentAddrNO = addr;
+    currentFilterNO = currentFilterNO >= 0 ? currentFilterNO : 0;
+    ViewController *vc = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil filterType:currentFilterNO address:currentAddrNO];
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [del.deckController setCenterController:[[UINavigationController alloc] initWithRootViewController:vc]];
     [self.viewDeckController toggleLeftView];
@@ -172,8 +186,8 @@
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
         mailViewController.mailComposeDelegate = self;
-        [mailViewController setSubject:@"news/YC - The iOS HN Reader"];
-        [mailViewController setMessageBody:@"Check out this free HN Reader app for iOS: https://itunes.apple.com/us/app/news-yc/id592893508?ls=1&mt=8" isHTML:NO];
+        [mailViewController setSubject:@"Caoliu Client - The iOS caoliushequ Reader"];
+        [mailViewController setMessageBody:@"Check out this souce code: https://github.com/liangji101/News-YC---iPhone" isHTML:NO];
         [self presentViewController:mailViewController animated:YES completion:nil];
     }
     else {
@@ -468,6 +482,11 @@
                 }
             }
         }
+
+        AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        UINavigationController *navVC = (UINavigationController *)del.deckController.centerController;
+        ViewController *vc = (ViewController *)[navVC viewControllers][0];
+        [cell setUpAddressForActiveFilter: vc.addressType delegate:self];
 
         return cell;
     }
