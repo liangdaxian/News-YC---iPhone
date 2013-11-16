@@ -19,6 +19,7 @@
     __weak IBOutlet UIActivityIndicatorView *loadingIndicator;
     UIRefreshControl *frontPageRefresher;
     __weak IBOutlet UIButton *submitLinkButton;
+    __weak IBOutlet UIImageView *backgroudImageView;
 
     // Comments Page UI
     IBOutlet UIView *commentsView;
@@ -187,6 +188,7 @@
     
     // Build NavBar
     [Helpers buildNavBarForController:self.navigationController];
+
 	
     // Set Up Data
     homePagePosts = [@[] mutableCopy];
@@ -273,8 +275,8 @@
 
 -(void)colorUI {
     // Set Colors for all objects based on Theme
-    self.view.backgroundColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"CellBG"];
-    frontPageTable.backgroundColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"CellBG"];
+    self.view.backgroundColor = [UIColor clearColor];
+    frontPageTable.backgroundColor = [UIColor clearColor];
     frontPageTable.separatorColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"Separator"];
     commentsTable.backgroundColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"CellBG"];
     underHeaderTriangle.backgroundColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"TableTriangle"];
@@ -287,8 +289,8 @@
 
 -(void)setSizes {
     // Sizes
-    frontPageTable.frame = CGRectMake(0, 0, frontPageTable.frame.size.width, self.view.frame.size.height);
-    [frontPageTable setContentOffset:CGPointZero];
+    frontPageTable.frame = CGRectMake(0, 100, frontPageTable.frame.size.width, self.view.frame.size.height);
+//    [frontPageTable setContentOffset:CGPointZero];
 }
 
 -(void)didChangeTheme {
@@ -459,6 +461,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == frontPageTable) {
         // Use current fnid to grab latest posts
+       
         if ([[frontPageTable indexPathsForVisibleRows].lastObject row] == homePagePosts.count - 3 && HNService.isLoadingFromFNID == NO) {
             __block UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] init];
             [Helpers navigationController:self.navigationController addActivityIndicator:&indicator];
@@ -480,6 +483,11 @@
             }];
         }
     }
+}
+
+- (void)setBackgroundImageBlur:(CGFloat)blurAmount
+{
+    backgroudImageView.alpha = blurAmount;
 }
 
 #pragma mark - TableView Delegate
@@ -515,6 +523,16 @@
                 }
             }
         }
+        cell.backgroundColor = [UIColor clearColor];
+        
+        UIView *containerImageView = [[UIView alloc] init];
+        containerImageView.backgroundColor = [UIColor blackColor];
+        containerImageView.alpha = 0.1;
+        containerImageView.layer.cornerRadius = 2.0;
+        containerImageView.isAccessibilityElement = NO;
+        
+        containerImageView.frame = CGRectMake(2, 2, cell.frame.size.width-2, cell.frame.size.height-2);
+        [cell addSubview:containerImageView];
         
         cell = [cell setCellWithPost:(homePagePosts.count > 0 ? homePagePosts[indexPath.row] : nil) atIndex:indexPath fromController:self];
         return cell;
@@ -730,7 +748,7 @@
     
     loadingIndicator.alpha = 0;
     [self placeHeaderBarBack];
-    
+        self.navigationController.navigationBarHidden = YES;
     // Animate everything
     [UIView animateWithDuration:0.3 animations:^{
         commentsView.frame = CGRectMake(0, self.view.frame.size.height, commentsView.frame.size.width, frontPageTable.frame.size.height);
@@ -995,6 +1013,7 @@ NSString *selectedImageURL;
     
     [_actionActionSheet addButtonWithTitle:@"Save Image"];
     [_actionActionSheet addButtonWithTitle:@"Copy Image"];
+    [_actionActionSheet addButtonWithTitle:@"Save As Backgroud"];
     [_actionActionSheet addButtonWithTitle:@"Cancel"];
     [_actionActionSheet showInView:linkView];
     
@@ -1016,6 +1035,11 @@ NSString *selectedImageURL;
         NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
                                                                                 selector:@selector(saveImageURL:) object:selectedImageURL];
         [queue addOperation:operation];
+    }else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Save As Backgroud"]){
+        NSOperationQueue *queue = [NSOperationQueue new];
+        NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
+                                                                                selector:@selector(SaveImageAsBackgroud:) object:selectedImageURL];
+        [queue addOperation:operation];
     }
 }
 
@@ -1033,6 +1057,14 @@ NSString *selectedImageURL;
   
 }
 
+-(void)SaveImageAsBackgroud:(NSString*)url{
+    
+    NSURL *iUrl = [NSURL URLWithString:url];
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:iUrl]];
+
+    backgroudImageView.image = image;
+    
+}
 
 #pragma mark - External Link View
 -(void)didClickExternalLinkInComment:(LinkButton *)linkButton {
