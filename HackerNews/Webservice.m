@@ -11,6 +11,7 @@
 #import "HNOperation.h"
 #import "TFHpple.h"
 
+NSString * HOST = @"";
 @implementation Webservice
 @synthesize delegate;
 
@@ -24,52 +25,20 @@
 }
 
 #pragma mark - Get Homepage
-/*
--(void)getHomepageWithSuccess:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure {
-    HNOperation *operation = [[HNOperation alloc] init];
-    __weak HNOperation *weakOp = operation;
-    [operation setUrlPath:@"https://www.hnsearch.com/bigrss" data:nil completion:^{
-        NSString *responseString = [[NSString alloc] initWithData:weakOp.responseData encoding:NSStringEncodingConversionAllowLossy];
-        if (responseString.length > 0) {
-            // Parse String and grab IDs
-            NSMutableArray *items = [@[] mutableCopy];
-            NSArray *itemIDs = [responseString componentsSeparatedByString:@"<hnsearch_id>"];
-            for (int xx = 1; xx < itemIDs.count; xx++) {
-                NSString *idSubString = itemIDs[xx];
-                [items addObject:[idSubString substringWithRange:NSMakeRange(0, 13)]];
-            }
-            
-            // Make new request URL Path
-            NSString *requestPath = @"http://api.thriftdb.com/api.hnsearch.com/items/_bulk/get_multi?ids=";
-            for (NSString *item in items) {
-                requestPath = [requestPath stringByAppendingString:[NSString stringWithFormat:@"%@,", item]];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self grabPostsFromPath:requestPath items:items success:success failure:failure];
-            });
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                failure();
-            });
-        }
-    }];
-    [self.HNOperationQueue addOperation:operation];
-}
- */
 
--(void)getHomepageWithFilter:(NSString *)filter withAddress:(NSString*)address success:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure {
+-(void)getHomepageWithFilter:(NSString *)filter withAddress:(NSString*)address WithSubPageIndex:(NSString*)subPageIndex success:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure {
     HNOperation *operation = [[HNOperation alloc] init];
     NSString *addr = address;
     __weak HNOperation *weakOp = operation;
-    NSString *urlString=[[NSString stringWithFormat: addr,filter] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *urlString=[[NSString stringWithFormat: addr,filter,subPageIndex] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
     
     [operation setUrlPath:urlString data:nil completion:^{
         NSString *responseString = [[NSString alloc] initWithData:weakOp.responseData encoding:enc];
+        
+        
         if (responseString.length > 0) {
-            NSArray *posts = [Post parsedFrontPagePostsFromRss:responseString];
+            NSArray *posts = [Post parsedFrontPagePostsFromWebPage:responseString withHost:HOST];
             dispatch_async(dispatch_get_main_queue(), ^{
                 success(posts);
             });
@@ -79,11 +48,24 @@
                 failure();
             });
         }
+        
+        
     }];
     [self.HNOperationQueue addOperation:operation];
 }
 
--(void)getHomepageWithFilter:(NSString *)filter withAddressNO:(int)address success:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure{
+-(void)getHomepageWithFilter:(NSString *)filter withAddressNO:(int)address WithSubPageIndex:(int)subPageIndex success:(GetHomeSuccessBlock)success failure:(GetHomeFailureBlock)failure{
+    
+    HOST = @"http://cl.man.lv";
+    NSString *addr1024 =  @"http://cl.man.lv/thread0806.php?fid=%@&page=%@";// default
+    
+    if (address-1 == AddressTypeDefault) {
+        
+          [self getHomepageWithFilter:filter withAddress:addr1024 WithSubPageIndex:[NSString stringWithFormat:@"%d",subPageIndex] success:success failure:failure];
+
+        return;
+        
+    }
     HNOperation *operation = [[HNOperation alloc] init];
     
     NSString *addr =@"http://1024z.site44.com/";
@@ -92,17 +74,20 @@
     NSString *urlString=[addr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     [operation setUrlPath:urlString data:nil completion:^{
-        NSString *addr1024 = @"http://cl.man.lv/rss.php?fid=%@";// default
+       
+        HOST = @"http://cl.man.lv";
+        NSString *addr1024 =  @"http://cl.man.lv/thread0806.php?fid=%@&page=%@";// default
         
         TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:weakOp.responseData encoding:@"utf-16"];
         
         NSArray * elements  = [doc searchWithXPathQuery:@"//a[@target='_blank']"];
         if (elements && elements.count>0 && address<elements.count) {
             NSURL* url = [NSURL URLWithString:[elements[address] objectForKey:@"href"]];
-            addr1024 = [[@"http://" stringByAppendingString:url.host] stringByAppendingString:@"/rss.php?fid=%@"];
+            HOST = [@"http://" stringByAppendingString:url.host];
+            addr1024 = [[@"http://" stringByAppendingString:url.host] stringByAppendingString:@"/thread0806.php?fid=%@page=%@"];
         }
         
-        [self getHomepageWithFilter:filter withAddress:addr1024 success:success failure:failure];
+        [self getHomepageWithFilter:filter withAddress:addr1024 WithSubPageIndex:[NSString stringWithFormat:@"%d",subPageIndex] success:success failure:failure];
         
     }];
     [self.HNOperationQueue addOperation:operation];

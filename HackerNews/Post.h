@@ -33,5 +33,5 @@
 +(Post *)postFromDictionary:(NSDictionary *)dict;
 +(NSArray *)orderPosts:(NSMutableArray *)posts byItemIDs:(NSArray *)items;
 + (NSArray *)parsedFrontPagePostsFromRss:(NSString *)htmlString;
-
++ (NSArray *)parsedFrontPagePostsFromWebPage:(NSString *)htmlString withHost:(NSString*)host;
 @end

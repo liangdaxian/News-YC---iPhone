@@ -34,7 +34,7 @@
 }
 
 - (void)setUpAddressForActiveFilter:(int)addr delegate:(id)vcDelegate {
-    NSArray *buttons = @[self.addr1Button, self.addr2Button, self.addr3Button, self.addr4Button, self.addr5Button,self.addr6Button];
+    NSArray *buttons = @[self.addr1Button, self.addr2Button, self.addr3Button, self.addr4Button, self.addr5Button,self.addr6Button,self.defaultButton];
     if (vcDelegate) {
         delegate = (id <AddressCellDelegate>)vcDelegate;
     }

@@ -21,6 +21,7 @@
 #import "UILabel+LinkDetection.h"
 #import "UnpreventableUILongPressGestureRecognizer.h"
 
+
 #define kPad 10
 
 #define kLoadingRectNoSubmit CGRectMake(291,17,20,20)
@@ -44,7 +45,8 @@ typedef NS_ENUM(NSInteger, AddressType) {
     AddressType3,
     AddressType4,
     AddressType5,
-    AddressType6
+    AddressType6,
+    AddressTypeDefault,
 };
 
 @interface ViewController : UIViewController <WebserviceDelegate, UITableViewDataSource, UITableViewDelegate,UIWebViewDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate>

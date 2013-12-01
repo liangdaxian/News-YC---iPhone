@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *addr5Button;
 @property (weak, nonatomic) IBOutlet UIButton *addr6Button;
 
+@property (strong, nonatomic) IBOutlet UIButton *defaultButton;
 @property (weak) id <AddressCellDelegate> delegate;
 
 - (void)setUpAddressForActiveFilter:(int)addr delegate:(id)vcDelegate;

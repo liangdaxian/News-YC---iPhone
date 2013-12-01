@@ -11,6 +11,7 @@
 #import "HNSingleton.h"
 #import "ItemParser.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "TFHpple.h"
 
 @implementation Post
 
@@ -81,6 +82,51 @@
     if (parsedArray.count>0) {
         for (NSDictionary *dict in parsedArray) {
             [postArray addObject:[Post postFromDictionary:dict]];
+        }
+    }
+    return postArray;
+}
+
++ (NSArray *)parsedFrontPagePostsFromWebPage:(NSString *)htmlString withHost:(NSString*)host {
+    // Set up
+    
+    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+   
+    TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:[htmlString dataUsingEncoding: enc] encoding:@"gbk"];
+    
+    NSArray * elements  = [doc searchWithXPathQuery:@"//a[@target='_blank' and contains(@href, 'htm_data')]"];
+    NSMutableArray *postArray = [NSMutableArray array];
+
+    if (elements && elements.count>0) {
+        
+        for (TFHppleElement *element in elements) {
+            
+            NSLog(@"href:%@",[element objectForKey:@"href"]);
+            NSLog(@"content:%@",[[element firstChild] content]);
+            NSLog(@"text:%@",[[element firstChild] text]);
+            
+            if ([[[element firstChild] content] isEqualToString:@".::"] || [[[element firstChild] text] isEqualToString:@".::"]){
+                // abdon it
+                NSLog(@"discard it");
+                
+            }else { // remove dulicate
+                
+                 NSDictionary *dict = [NSMutableDictionary dictionary];
+                
+                NSString *title = [[element firstChild] text];
+                if (!title || title.length <=0) {
+                    title = [[element firstChild] content];
+                }
+                [dict setValue:title forKey:@"title"];
+                
+                NSURL *url= [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",host ,[element objectForKey:@"href"]]];
+                NSString* link = [[url standardizedURL]absoluteString];
+                
+                [dict setValue:link forKey:@"link"];
+                [dict setValue:@"" forKey:@"author"];
+                [postArray addObject:[Post postFromDictionary:dict]];
+                
+            }
         }
     }
     return postArray;

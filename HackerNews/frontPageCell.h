@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Post.h"
 
-#define kFrontPageCellHeight 96
-#define kFrontPageActionsHeight 148
+#define kFrontPageCellHeight 60
+#define kFrontPageActionsHeight 60
 
 
 @interface frontPageCell : UITableViewCell

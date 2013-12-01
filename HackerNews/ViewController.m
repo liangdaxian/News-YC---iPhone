@@ -10,6 +10,9 @@
 #import "AppDelegate.h"
 #import "TFHpple.h"
 
+#import <UIScrollView+SVPullToRefresh.h>
+#import <UIScrollView+SVInfiniteScrolling.h>
+
 @interface ViewController () {
     // Home Page UI
     __weak IBOutlet UIView *headerContainer;
@@ -55,6 +58,7 @@
     float commentsLastLocation;
     int scrollDirection;
     NSString *filterString;
+    NSString *subPageIndex;
     int address;
 }
 
@@ -136,6 +140,10 @@
                 break;
             case AddressType6:
                 address = 6;
+                break;
+            case AddressTypeDefault:
+                address = 7;
+                break;
             default:
                 address = 0;
                 break;
@@ -201,6 +209,7 @@
     HNService = [[Webservice alloc] init];
     HNService.delegate = self;
     
+    subPageIndex = @"0";
     // Run methods
     [self loadHomepage];
     [self buildUI];
@@ -231,6 +240,18 @@
     longPressRecognizer.allowableMovement = 20;
     longPressRecognizer.minimumPressDuration = 1.0f;
     [linkWebView addGestureRecognizer:longPressRecognizer];
+    
+    __strong ViewController *Self = self;
+    
+    [frontPageTable addPullToRefreshWithActionHandler:^{
+        [Self refreshHomepage];
+    }];
+    
+    // setup infinite scrolling
+    [frontPageTable addInfiniteScrollingWithActionHandler:^{
+        [Self loadMoreItems];
+    }];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -250,17 +271,17 @@
 #pragma mark - UI
 -(void)buildUI {
     // Add Refresh Controls
-    frontPageRefresher = [[UIRefreshControl alloc] init];
-    [frontPageRefresher addTarget:self action:@selector(loadHomepage) forControlEvents:UIControlEventValueChanged];
-    frontPageRefresher.tintColor = [UIColor blackColor];
-    frontPageRefresher.alpha = 0.65;
-    [frontPageTable addSubview:frontPageRefresher];
+//    frontPageRefresher = [[UIRefreshControl alloc] init];
+//    [frontPageRefresher addTarget:self action:@selector(loadHomepage) forControlEvents:UIControlEventValueChanged];
+//    frontPageRefresher.tintColor = [UIColor blackColor];
+//    frontPageRefresher.alpha = 0.65;
+//    [frontPageTable addSubview:frontPageRefresher];
     
-    commentsRefresher = [[UIRefreshControl alloc] init];
-    [commentsRefresher addTarget:self action:@selector(reloadComments) forControlEvents:UIControlEventValueChanged];
-    commentsRefresher.tintColor = [UIColor blackColor];
-    commentsRefresher.alpha = 0.65;
-    [commentsTable addSubview:commentsRefresher];
+//    commentsRefresher = [[UIRefreshControl alloc] init];
+//    [commentsRefresher addTarget:self action:@selector(reloadComments) forControlEvents:UIControlEventValueChanged];
+//    commentsRefresher.tintColor = [UIColor blackColor];
+//    commentsRefresher.alpha = 0.65;
+//    [commentsTable addSubview:commentsRefresher];
     
     commentsHeader.backgroundColor = kOrangeColor;
     linkHeader.backgroundColor = kOrangeColor;
@@ -275,8 +296,10 @@
 
 -(void)colorUI {
     // Set Colors for all objects based on Theme
-    self.view.backgroundColor = [UIColor clearColor];
-    frontPageTable.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"CellBG"];
+    frontPageTable.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
+    frontPageTable.tintColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"MainFont"];
+    
     frontPageTable.separatorColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"Separator"];
     commentsTable.backgroundColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"CellBG"];
     underHeaderTriangle.backgroundColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"TableTriangle"];
@@ -288,9 +311,7 @@
 }
 
 -(void)setSizes {
-    // Sizes
-    frontPageTable.frame = CGRectMake(0, 100, frontPageTable.frame.size.width, self.view.frame.size.height);
-//    [frontPageTable setContentOffset:CGPointZero];
+
 }
 
 -(void)didChangeTheme {
@@ -342,50 +363,51 @@
 #pragma mark - Load HomePage
 -(void)loadHomepage {
     
-    NSMutableArray *history = [homePagePostsByFilterID objectForKey:filterString];
-    if (history != nil) {
-         homePagePosts = history;
-        [frontPageTable reloadData];
-    }
+
     
     __block UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] init];
     [Helpers navigationController:self.navigationController addActivityIndicator:&indicator];
-    [HNService getHomepageWithFilter:filterString withAddressNO: address success:^(NSArray *posts) {
+
+    [HNService getHomepageWithFilter:filterString withAddressNO: address WithSubPageIndex:[subPageIndex intValue] success:^(NSArray *posts) {
 
         NSMutableArray *append = [[NSMutableArray alloc]init];
         for (Post *one in posts) {
-            if (![homePageIDs valueForKey:one.ID]) {
-                [homePageIDs setValue:@"true" forKey:one.ID];
-                [append addObject:one];
-            }
+            [append addObject:one];
         }
         
-        NSMutableArray *history = [homePagePostsByFilterID objectForKey:filterString];
-        if (history == nil) {
-            history =[[NSMutableArray alloc]init];
-        }
-        // append history to current posts
-        [append addObjectsFromArray:[history mutableCopy]];
-        
-        if (!append) {
-            append = [posts mutableCopy];
-        }
-        [homePagePostsByFilterID setObject:append forKey:filterString];
-        homePagePosts = append;
+        [homePagePosts addObjectsFromArray:append];
         
         [frontPageTable reloadData];
+        [frontPageTable.infiniteScrollingView stopAnimating];
         [self endRefreshing:frontPageRefresher];
         indicator.alpha = 0;
         [indicator removeFromSuperview];
         [HNService unlockFNIDLoading];
     } failure:^{
         [FailedLoadingView launchFailedLoadingInView:self.view];
+        [frontPageTable.infiniteScrollingView stopAnimating];
+        
         [self endRefreshing:frontPageRefresher];
         indicator.alpha = 0;
         [indicator removeFromSuperview];
     }];
 }
+- (void)loadMoreItems{
+    
+    if (!subPageIndex) {
+        subPageIndex = @"0";
+    }
+    subPageIndex = [NSString stringWithFormat:@"%d",[subPageIndex intValue]+1];
+    [frontPageTable.infiniteScrollingView startAnimating];
+    [self loadHomepage];
+    
+}
 
+- (void)refreshHomepage{
+    
+    [homePagePosts removeAllObjects];
+    [self loadHomepage];
+}
 
 #pragma mark - Load Comments
 -(void)loadCommentsForPost:(Post *)post {
@@ -462,26 +484,26 @@
     if (scrollView == frontPageTable) {
         // Use current fnid to grab latest posts
        
-        if ([[frontPageTable indexPathsForVisibleRows].lastObject row] == homePagePosts.count - 3 && HNService.isLoadingFromFNID == NO) {
-            __block UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] init];
-            [Helpers navigationController:self.navigationController addActivityIndicator:&indicator];
-            [HNService getHomepageFromFnid:[HNSingleton sharedHNSingleton].CurrentFNID withSuccess:^(NSArray *posts) {
-                indicator.alpha = 0;
-                [indicator removeFromSuperview];
-                if (posts.count > 0) {
-                    [homePagePosts addObjectsFromArray:posts];
-                    [frontPageTable reloadData];
-                }
-                else {
-                    [HNService lockFNIDLoading];
-                }
-            } failure:^{
-                [FailedLoadingView launchFailedLoadingInView:self.view];
-                [HNService lockFNIDLoading];
-                indicator.alpha = 0;
-                [indicator removeFromSuperview];
-            }];
-        }
+//        if ([[frontPageTable indexPathsForVisibleRows].lastObject row] == homePagePosts.count - 3 && HNService.isLoadingFromFNID == NO) {
+//            __block UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] init];
+//            [Helpers navigationController:self.navigationController addActivityIndicator:&indicator];
+//            [HNService getHomepageFromFnid:[HNSingleton sharedHNSingleton].CurrentFNID withSuccess:^(NSArray *posts) {
+//                indicator.alpha = 0;
+//                [indicator removeFromSuperview];
+//                if (posts.count > 0) {
+//                    [homePagePosts addObjectsFromArray:posts];
+//                    [frontPageTable reloadData];
+//                }
+//                else {
+//                    [HNService lockFNIDLoading];
+//                }
+//            } failure:^{
+//                [FailedLoadingView launchFailedLoadingInView:self.view];
+//                [HNService lockFNIDLoading];
+//                indicator.alpha = 0;
+//                [indicator removeFromSuperview];
+//            }];
+//        }
     }
 }
 
@@ -523,18 +545,9 @@
                 }
             }
         }
-        cell.backgroundColor = [UIColor clearColor];
-        
-        UIView *containerImageView = [[UIView alloc] init];
-        containerImageView.backgroundColor = [UIColor blackColor];
-        containerImageView.alpha = 0.1;
-        containerImageView.layer.cornerRadius = 2.0;
-        containerImageView.isAccessibilityElement = NO;
-        
-        containerImageView.frame = CGRectMake(2, 2, cell.frame.size.width-2, cell.frame.size.height-2);
-        [cell addSubview:containerImageView];
         
         cell = [cell setCellWithPost:(homePagePosts.count > 0 ? homePagePosts[indexPath.row] : nil) atIndex:indexPath fromController:self];
+        
         return cell;
     }
     
