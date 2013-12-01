@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2FBBAD5703E1404B9D2B66DA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3810186672BC404C9ECA6F8E /* libPods.a */; };
 		6C2DAAD3174C977B0069BAE1 /* ARChromeActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C2DAACE174C977B0069BAE1 /* ARChromeActivity.m */; };
 		6C2DAAD4174C977B0069BAE1 /* ARChromeActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2DAACF174C977B0069BAE1 /* ARChromeActivity.png */; };
 		6C2DAAD5174C977B0069BAE1 /* ARChromeActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2DAAD0174C977B0069BAE1 /* ARChromeActivity@2x.png */; };
@@ -68,12 +67,9 @@
 		BBF6027817EFE68F00CF8FC1 /* jquery.min.js in Resources */ = {isa = PBXBuildFile; fileRef = BB7681A317EF2EB20098FB08 /* jquery.min.js */; };
 		BBF6027917EFE68F00CF8FC1 /* jquery.tagsinput.min.js in Resources */ = {isa = PBXBuildFile; fileRef = BB7681A417EF2EB20098FB08 /* jquery.tagsinput.min.js */; };
 		BBF6027A17EFE68F00CF8FC1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = BB7681A517EF2EB20098FB08 /* README.md */; };
-		BBFED74D184B3315003B78FD /* SVPullToRefresh.h in Resources */ = {isa = PBXBuildFile; fileRef = BBFED747184B3315003B78FD /* SVPullToRefresh.h */; };
-		BBFED74E184B3315003B78FD /* UIScrollView+SVInfiniteScrolling.h in Resources */ = {isa = PBXBuildFile; fileRef = BBFED748184B3315003B78FD /* UIScrollView+SVInfiniteScrolling.h */; };
-		BBFED74F184B3315003B78FD /* UIScrollView+SVInfiniteScrolling.m in Resources */ = {isa = PBXBuildFile; fileRef = BBFED749184B3315003B78FD /* UIScrollView+SVInfiniteScrolling.m */; };
-		BBFED750184B3315003B78FD /* UIScrollView+SVPullToRefresh.h in Resources */ = {isa = PBXBuildFile; fileRef = BBFED74A184B3315003B78FD /* UIScrollView+SVPullToRefresh.h */; };
-		BBFED751184B3315003B78FD /* UIScrollView+SVPullToRefresh.m in Resources */ = {isa = PBXBuildFile; fileRef = BBFED74B184B3315003B78FD /* UIScrollView+SVPullToRefresh.m */; };
 		BBFED753184B4422003B78FD /* editmode.png in Resources */ = {isa = PBXBuildFile; fileRef = BBFED752184B4422003B78FD /* editmode.png */; };
+		BBFED75A184B4DF7003B78FD /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = BBFED757184B4DF7003B78FD /* UIScrollView+SVInfiniteScrolling.m */; };
+		BBFED75B184B4DF7003B78FD /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = BBFED759184B4DF7003B78FD /* UIScrollView+SVPullToRefresh.m */; };
 		C012E5CC173B09440030924E /* logoutOrange-01.png in Resources */ = {isa = PBXBuildFile; fileRef = C012E5CB173B09440030924E /* logoutOrange-01.png */; };
 		C01EDDE71731553B00AE97B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C01EDDE61731553B00AE97B8 /* UIKit.framework */; };
 		C01EDDE91731553B00AE97B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C01EDDE81731553B00AE97B8 /* Foundation.framework */; };
@@ -202,7 +198,6 @@
 		6C2DAAF1174C9C2E0069BAE1 /* vi.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = vi.lproj; path = TUSafariActivity/vi.lproj; sourceTree = "<group>"; };
 		6C2DAAF2174C9C2E0069BAE1 /* zh_CN.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = zh_CN.lproj; path = TUSafariActivity/zh_CN.lproj; sourceTree = "<group>"; };
 		6C7410C51751C09A0027C09C /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
-		9BBFF61EDE1C458A95AD8B24 /* Pods/Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		BB2F8BF61837AF55006E046C /* backgroud.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroud.jpg; sourceTree = "<group>"; };
 		BB2F8BF81837B432006E046C /* bg02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg02.jpg; sourceTree = "<group>"; };
 		BB2F8BFA1837C097006E046C /* bg01.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg01.jpeg; sourceTree = "<group>"; };
@@ -240,12 +235,12 @@
 		BB7681B617EFDBA60098FB08 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
 		BB7681B717EFDBA60098FB08 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
 		BBFED743184B2CD2003B78FD /* libPods-SVPullToRefresh.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SVPullToRefresh.a"; path = "Pods/build/Debug-iphoneos/libPods-SVPullToRefresh.a"; sourceTree = "<group>"; };
-		BBFED747184B3315003B78FD /* SVPullToRefresh.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = SVPullToRefresh.h; path = SVPullToRefresh/SVPullToRefresh/SVPullToRefresh.h; sourceTree = "<group>"; };
-		BBFED748184B3315003B78FD /* UIScrollView+SVInfiniteScrolling.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = "UIScrollView+SVInfiniteScrolling.h"; path = "SVPullToRefresh/SVPullToRefresh/UIScrollView+SVInfiniteScrolling.h"; sourceTree = "<group>"; };
-		BBFED749184B3315003B78FD /* UIScrollView+SVInfiniteScrolling.m */ = {isa = PBXFileReference; lastKnownFileType = file; name = "UIScrollView+SVInfiniteScrolling.m"; path = "SVPullToRefresh/SVPullToRefresh/UIScrollView+SVInfiniteScrolling.m"; sourceTree = "<group>"; };
-		BBFED74A184B3315003B78FD /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = "UIScrollView+SVPullToRefresh.h"; path = "SVPullToRefresh/SVPullToRefresh/UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
-		BBFED74B184B3315003B78FD /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; lastKnownFileType = file; name = "UIScrollView+SVPullToRefresh.m"; path = "SVPullToRefresh/SVPullToRefresh/UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
 		BBFED752184B4422003B78FD /* editmode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = editmode.png; sourceTree = "<group>"; };
+		BBFED755184B4DF7003B78FD /* SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPullToRefresh.h; sourceTree = "<group>"; };
+		BBFED756184B4DF7003B78FD /* UIScrollView+SVInfiniteScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVInfiniteScrolling.h"; sourceTree = "<group>"; };
+		BBFED757184B4DF7003B78FD /* UIScrollView+SVInfiniteScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVInfiniteScrolling.m"; sourceTree = "<group>"; };
+		BBFED758184B4DF7003B78FD /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
+		BBFED759184B4DF7003B78FD /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
 		C012E5CB173B09440030924E /* logoutOrange-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logoutOrange-01.png"; sourceTree = "<group>"; };
 		C01EDDE31731553B00AE97B8 /* HackerNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C01EDDE61731553B00AE97B8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -384,7 +379,6 @@
 				C01EDDE71731553B00AE97B8 /* UIKit.framework in Frameworks */,
 				C01EDDE91731553B00AE97B8 /* Foundation.framework in Frameworks */,
 				C01EDDEB1731553B00AE97B8 /* CoreGraphics.framework in Frameworks */,
-				2FBBAD5703E1404B9D2B66DA /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,23 +504,22 @@
 			name = Parser;
 			sourceTree = "<group>";
 		};
-		BBFED74C184B3315003B78FD /* SVPullToRefresh */ = {
+		BBFED754184B4DF7003B78FD /* SVPullToRefresh */ = {
 			isa = PBXGroup;
 			children = (
-				BBFED747184B3315003B78FD /* SVPullToRefresh.h */,
-				BBFED748184B3315003B78FD /* UIScrollView+SVInfiniteScrolling.h */,
-				BBFED749184B3315003B78FD /* UIScrollView+SVInfiniteScrolling.m */,
-				BBFED74A184B3315003B78FD /* UIScrollView+SVPullToRefresh.h */,
-				BBFED74B184B3315003B78FD /* UIScrollView+SVPullToRefresh.m */,
+				BBFED755184B4DF7003B78FD /* SVPullToRefresh.h */,
+				BBFED756184B4DF7003B78FD /* UIScrollView+SVInfiniteScrolling.h */,
+				BBFED757184B4DF7003B78FD /* UIScrollView+SVInfiniteScrolling.m */,
+				BBFED758184B4DF7003B78FD /* UIScrollView+SVPullToRefresh.h */,
+				BBFED759184B4DF7003B78FD /* UIScrollView+SVPullToRefresh.m */,
 			);
-			name = SVPullToRefresh;
-			path = Pods;
+			path = SVPullToRefresh;
 			sourceTree = "<group>";
 		};
 		C01EDDDA1731553B00AE97B8 = {
 			isa = PBXGroup;
 			children = (
-				BBFED74C184B3315003B78FD /* SVPullToRefresh */,
+				BBFED754184B4DF7003B78FD /* SVPullToRefresh */,
 				C08142171797975E00D1BB17 /* CoreText.framework */,
 				C01EDEB81733698D00AE97B8 /* MessageUI.framework */,
 				C01EDEB61733698600AE97B8 /* Social.framework */,
@@ -540,7 +533,6 @@
 				C01EDDEC1731553B00AE97B8 /* HackerNews */,
 				C01EDDE51731553B00AE97B8 /* Frameworks */,
 				C01EDDE41731553B00AE97B8 /* Products */,
-				9BBFF61EDE1C458A95AD8B24 /* Pods/Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -838,7 +830,6 @@
 			files = (
 				BBFED753184B4422003B78FD /* editmode.png in Resources */,
 				BBF6026717EFE68F00CF8FC1 /* app.css in Resources */,
-				BBFED74D184B3315003B78FD /* SVPullToRefresh.h in Resources */,
 				BBF6026817EFE68F00CF8FC1 /* bootstrap-responsive.css in Resources */,
 				BBF6026917EFE68F00CF8FC1 /* bootstrap-responsive.min.css in Resources */,
 				BBF6026A17EFE68F00CF8FC1 /* bootstrap.css in Resources */,
@@ -900,7 +891,6 @@
 				BB40422C17F9787C00FA1077 /* weixin.png in Resources */,
 				C0F93FE71739CE2800E47B5E /* ProfileNotLoggedInCell.xib in Resources */,
 				C0F93FED1739D4DC00E47B5E /* ProfileLoggedInCell.xib in Resources */,
-				BBFED750184B3315003B78FD /* UIScrollView+SVPullToRefresh.h in Resources */,
 				C0970E4917EA6CF1003FD742 /* Images.xcassets in Resources */,
 				C0F93FF01739D61000E47B5E /* profileKarma-01.png in Resources */,
 				C0F93FF11739D61000E47B5E /* profileUser-01.png in Resources */,
@@ -921,11 +911,9 @@
 				6C2DAAF3174C9C2E0069BAE1 /* cs.lproj in Resources */,
 				6C2DAAF4174C9C2E0069BAE1 /* de.lproj in Resources */,
 				6C2DAAF5174C9C2E0069BAE1 /* en.lproj in Resources */,
-				BBFED751184B3315003B78FD /* UIScrollView+SVPullToRefresh.m in Resources */,
 				6C2DAAF6174C9C2E0069BAE1 /* es.lproj in Resources */,
 				6C2DAAF7174C9C2E0069BAE1 /* eu.lproj in Resources */,
 				6C2DAAF8174C9C2E0069BAE1 /* fi.lproj in Resources */,
-				BBFED74F184B3315003B78FD /* UIScrollView+SVInfiniteScrolling.m in Resources */,
 				6C2DAAF9174C9C2E0069BAE1 /* fr.lproj in Resources */,
 				6C2DAAFA174C9C2E0069BAE1 /* it.lproj in Resources */,
 				6C2DAAFB174C9C2E0069BAE1 /* ja.lproj in Resources */,
@@ -939,7 +927,6 @@
 				6C2DAB01174C9C2E0069BAE1 /* ru.lproj in Resources */,
 				6C2DAB02174C9C2E0069BAE1 /* Safari.png in Resources */,
 				6C2DAB03174C9C2E0069BAE1 /* Safari@2x.png in Resources */,
-				BBFED74E184B3315003B78FD /* UIScrollView+SVInfiniteScrolling.h in Resources */,
 				6C2DAB04174C9C2E0069BAE1 /* Safari@2x~ipad.png in Resources */,
 				6C2DAB05174C9C2E0069BAE1 /* Safari~ipad.png in Resources */,
 				6C2DAB06174C9C2E0069BAE1 /* sk.lproj in Resources */,
@@ -997,6 +984,7 @@
 				C01EDDF31731553B00AE97B8 /* main.m in Sources */,
 				C01EDDF71731553B00AE97B8 /* AppDelegate.m in Sources */,
 				C01EDE001731553B00AE97B8 /* ViewController.m in Sources */,
+				BBFED75B184B4DF7003B78FD /* UIScrollView+SVPullToRefresh.m in Sources */,
 				BB6ECC7C17ED9C6300C40FE4 /* ItemParser.m in Sources */,
 				C01EDE0C1731557900AE97B8 /* Webservice.m in Sources */,
 				C01EDE1017315C6700AE97B8 /* Post.m in Sources */,
@@ -1005,6 +993,7 @@
 				C01EDE1A1731A3CA00AE97B8 /* IIWrapController.m in Sources */,
 				C01EDE1E1731A3E500AE97B8 /* triangleView.m in Sources */,
 				C01EDE2F1731A44200AE97B8 /* FilterCell.m in Sources */,
+				BBFED75A184B4DF7003B78FD /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				C01EDE311731A44200AE97B8 /* ShareCell.m in Sources */,
 				C01EDE331731A44200AE97B8 /* SettingsCell.m in Sources */,
 				C01EDE351731A44200AE97B8 /* CreditsCell.m in Sources */,
@@ -1056,7 +1045,6 @@
 /* Begin XCBuildConfiguration section */
 		C01EDE041731553B00AE97B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9BBFF61EDE1C458A95AD8B24 /* Pods/Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1098,7 +1086,6 @@
 		};
 		C01EDE051731553B00AE97B8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9BBFF61EDE1C458A95AD8B24 /* Pods/Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1126,7 +1113,6 @@
 		};
 		C01EDE071731553B00AE97B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9BBFF61EDE1C458A95AD8B24 /* Pods/Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1147,7 +1133,6 @@
 		};
 		C01EDE081731553B00AE97B8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9BBFF61EDE1C458A95AD8B24 /* Pods/Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
