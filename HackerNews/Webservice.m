@@ -92,7 +92,7 @@
     NSString *urlString=[addr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     [operation setUrlPath:urlString data:nil completion:^{
-        NSString *addr1024 = @"http://wo.yao.cl/rss.php?fid=%@";// default
+        NSString *addr1024 = @"http://cl.man.lv/rss.php?fid=%@";// default
         
         TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:weakOp.responseData encoding:@"utf-16"];
         

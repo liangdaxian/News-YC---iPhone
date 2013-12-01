@@ -776,11 +776,6 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Benjamin Gordon";
-				TargetAttributes = {
-					C01EDDE21731553B00AE97B8 = {
-						DevelopmentTeam = 2ARNJY38FW;
-					};
-				};
 			};
 			buildConfigurationList = C01EDDDE1731553B00AE97B8 /* Build configuration list for PBXProject "HackerNews" */;
 			compatibilityVersion = "Xcode 3.2";
