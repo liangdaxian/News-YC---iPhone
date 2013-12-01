@@ -65,6 +65,8 @@ static HNSingleton * _sharedHNSingleton = nil;
 -(void)changeTheme {
     if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"Theme"] isEqualToString:@"Night"]) {
         [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.2 alpha:1.0] forKey:@"CellBG"];
+        [[HNSingleton sharedHNSingleton].themeDict setValue: [UIColor colorWithRed:0/255.0f green:57/255.0f blue:88/255.0f alpha:1] forKey:@"CellBG"];
+       
         [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.92 alpha:1.0] forKey:@"MainFont"];
         [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.98 alpha:1.0] forKey:@"SubFont"];
         [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.25 alpha:1.0] forKey:@"BottomBar"];
@@ -80,7 +82,7 @@ static HNSingleton * _sharedHNSingleton = nil;
     else {
         NSLog(@"%@", [[NSUserDefaults standardUserDefaults] stringForKey:@"Theme"]);
         [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:1.0 alpha:1.0] forKey:@"CellBG"];
-        [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.99 alpha:1.0] forKey:@"MainFont"];
+        [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithRed:0/255.0f green:57/255.0f blue:88/255.0f alpha:1] forKey:@"MainFont"];
         [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.80 alpha:1.0] forKey:@"SubFont"];
         [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.75 alpha:1.0] forKey:@"BottomBar"];
         [[HNSingleton sharedHNSingleton].themeDict setValue:[UIColor colorWithWhite:0.5 alpha:1.0] forKey:@"Separator"];

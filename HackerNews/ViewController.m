@@ -22,7 +22,7 @@
     __weak IBOutlet UIActivityIndicatorView *loadingIndicator;
     UIRefreshControl *frontPageRefresher;
     __weak IBOutlet UIButton *submitLinkButton;
-    __weak IBOutlet UIImageView *backgroudImageView;
+    __strong IBOutlet UIImageView *backgroudImageView;
 
     // Comments Page UI
     IBOutlet UIView *commentsView;
@@ -46,7 +46,7 @@
 
     // Webservice
     Webservice *HNService;
-    
+    NSInteger lastContentOffset;
     // Data
     NSMutableArray *homePagePosts;
     NSMutableDictionary *homePagePostsByFilterID;
@@ -196,7 +196,7 @@
     
     // Build NavBar
     [Helpers buildNavBarForController:self.navigationController];
-
+    self.navigationController.navigationBar.translucent = NO;
 	
     // Set Up Data
     homePagePosts = [@[] mutableCopy];
@@ -251,6 +251,7 @@
     [frontPageTable addInfiniteScrollingWithActionHandler:^{
         [Self loadMoreItems];
     }];
+    frontPageTable.infiniteScrollingView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
     
 }
 
@@ -297,7 +298,8 @@
 -(void)colorUI {
     // Set Colors for all objects based on Theme
     self.view.backgroundColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"CellBG"];
-    frontPageTable.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
+    frontPageTable.backgroundColor = [UIColor colorWithRed:0/255.0f green:57/255.0f blue:88/255.0f alpha:1];
+    frontPageTable.backgroundColor = [UIColor clearColor];
     frontPageTable.tintColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"MainFont"];
     
     frontPageTable.separatorColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"Separator"];
@@ -386,7 +388,10 @@
     } failure:^{
         [FailedLoadingView launchFailedLoadingInView:self.view];
         [frontPageTable.infiniteScrollingView stopAnimating];
-        
+        if ([subPageIndex intValue]>0) {
+            subPageIndex = [NSString stringWithFormat:@"%d",[subPageIndex intValue]-1];
+        }
+
         [self endRefreshing:frontPageRefresher];
         indicator.alpha = 0;
         [indicator removeFromSuperview];
@@ -504,6 +509,8 @@
 //                [indicator removeFromSuperview];
 //            }];
 //        }
+
+       
     }
 }
 
@@ -545,6 +552,8 @@
                 }
             }
         }
+        
+        cell.backgroundColor = [UIColor colorWithRed:0.0f green:196/255.0f blue:198/255.0f alpha:1.0] ;
         
         cell = [cell setCellWithPost:(homePagePosts.count > 0 ? homePagePosts[indexPath.row] : nil) atIndex:indexPath fromController:self];
         
@@ -1075,8 +1084,20 @@ NSString *selectedImageURL;
     NSURL *iUrl = [NSURL URLWithString:url];
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:iUrl]];
 
+    frontPageTable.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor clearColor];
     backgroudImageView.image = image;
+
+    UIImageView *cover = [[UIImageView alloc]initWithFrame:backgroudImageView.frame];
+    cover.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
+    [self.view addSubview:cover];
+    [self.view sendSubviewToBack:cover];
     
+    [self.view sendSubviewToBack:backgroudImageView];
+
+    [self.view setNeedsDisplay];
+    [self.view layoutSubviews];
+
 }
 
 #pragma mark - External Link View
