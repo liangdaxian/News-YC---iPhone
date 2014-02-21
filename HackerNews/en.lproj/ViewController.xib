@@ -27,6 +27,7 @@
                 <outlet property="linkWebView" destination="11" id="118"/>
                 <outlet property="loadingIndicator" destination="25" id="110"/>
                 <outlet property="postTitleLabel" destination="22" id="121"/>
+                <outlet property="sidebarButton" destination="jx3-2c-0R8" id="36B-PW-juV"/>
                 <outlet property="submitLinkButton" destination="147" id="149"/>
                 <outlet property="underHeaderTriangle" destination="28" id="140"/>
                 <outlet property="view" destination="8" id="104"/>
@@ -63,8 +64,37 @@
                         <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
                     </accessibility>
                 </view>
+                <view contentMode="scaleToFill" id="tM3-dN-qQm" userLabel="header view">
+                    <rect key="frame" x="0.0" y="-1" width="320" height="52"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" alpha="0.40000000596046448" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="horizontal_gradient_top_large.png" id="rYD-Vs-Abr" userLabel="headerBackImage">
+                            <rect key="frame" x="-1" y="-79" width="326" height="7"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" alpha="0.40000000596046448" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="horizontal_gradient_top_large.png" id="Vfg-X8-dLm" userLabel="headerShadowImage">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="115"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sidebar_cover_view.png" id="qCD-VR-X8Z">
+                            <rect key="frame" x="17" y="23" width="25" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jx3-2c-0R8">
+                            <rect key="frame" x="6" y="11" width="51" height="37"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="toggleSideNav:" destination="-1" eventType="touchUpInside" id="bvd-AO-e2F"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </view>
                 <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="23">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <rect key="frame" x="0.0" y="53" width="320" height="516"/>
                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -76,7 +106,6 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
         <view contentMode="scaleToFill" id="9" userLabel="Comments View">
@@ -371,8 +400,10 @@
         </view>
     </objects>
     <resources>
+        <image name="horizontal_gradient_top_large.png" width="320" height="300"/>
         <image name="menu_b3-01.png" width="30" height="18"/>
         <image name="share.png" width="50" height="50"/>
+        <image name="sidebar_cover_view.png" width="50" height="50"/>
         <image name="submitLink-01.png" width="100" height="100"/>
         <image name="topicon.png" width="141" height="141"/>
         <image name="x-01.png" width="60" height="60"/>

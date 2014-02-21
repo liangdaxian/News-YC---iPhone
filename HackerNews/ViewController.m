@@ -52,6 +52,7 @@
     IBOutlet CrossFadeImageView *bgImageFullBlurred;
     IBOutlet UIView *blackWashView;
     
+    IBOutlet UIButton *sidebarButton;
     // Webservice
     Webservice *HNService;
     NSInteger lastContentOffset;
@@ -205,8 +206,9 @@
     [super viewDidLoad];
     
     // Build NavBar
-    [Helpers buildNavBarForController:self.navigationController];
-    self.navigationController.navigationBar.translucent = NO;
+//    [Helpers buildNavBarForController:self.navigationController];
+    self.navigationController.navigationBarHidden = YES;
+//    self.navigationController.navigationBar.translucent = YES;
 	
     // Set Up Data
     homePagePosts = [@[] mutableCopy];
@@ -263,8 +265,7 @@
     
     bgPhotoMgr = [EBGPhotoManager sharedManager];
     [self initBackgroundImageView];
-    
-    
+
     __strong ViewController *Self = self;
     
     [frontPageTable addPullToRefreshWithActionHandler:^{
@@ -284,6 +285,8 @@
     
     [bgImageFull setImage:[UIImage imageNamed:@"background.jpg"] animate:NO];
     [bgImageFullBlurred setImage:[UIImage imageNamed:@"background.jpg"] animate:NO];
+    
+    bgImageFullBlurred.alpha = 0.0;
     
     CGSize viewSize = [[UIScreen mainScreen] bounds].size;
     
@@ -399,6 +402,12 @@
     bgImageFullBlurred.frame = frame;
 }
 
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = YES;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+}
 
 - (void)viewDidAppear:(BOOL)animated {
     [self setSizes];
@@ -654,6 +663,13 @@ UIView *_contentView;
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     // Front Page
     if (tableView == frontPageTable) {
+        
+        if (indexPath.row == 0) {
+            UITableViewCell *cellView = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@""];
+            cellView.backgroundColor = [UIColor clearColor];
+            return cellView;
+        }
+        
         NSString *CellIdentifier = @"frontPageCell";
         frontPageCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
@@ -730,6 +746,9 @@ UIView *_contentView;
     
     // Front Page Cell Height
     else {
+        if (indexPath.row == 0) {
+            return 200;
+        }
         if ([[homePagePosts objectAtIndex:indexPath.row] isOpenForActions]) {
             return kFrontPageActionsHeight;
         }
@@ -886,7 +905,7 @@ UIView *_contentView;
         commentsView.frame = CGRectMake(0, self.view.frame.size.height, commentsView.frame.size.width, frontPageTable.frame.size.height);
         linkView.frame = CGRectMake(0, self.view.frame.size.height, linkView.frame.size.width, linkView.frame.size.height);
     } completion:^(BOOL fin){
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
+//        [self.navigationController setNavigationBarHidden:NO animated:YES];
     }];
 }
 
