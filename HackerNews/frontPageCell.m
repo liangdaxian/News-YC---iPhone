@@ -45,6 +45,14 @@
 -(frontPageCell *)setCellWithPost:(Post *)post atIndex:(NSIndexPath *)indexPath fromController:(UIViewController *)controller {
     if (post) {
         // Set data
+        
+        self.backgroundColor = [UIColor clearColor];
+        self.autoresizesSubviews = NO;
+        self.accessoryType = UITableViewCellAccessoryNone;
+        self.isAccessibilityElement = NO;
+        
+        self.autoresizesSubviews = YES;
+        
         self.titleLabel.text = post.Title;
         NSString *timeAgo = post.pubdate;
         self.postedTimeLabel.text = [NSString stringWithFormat:@"%@", timeAgo];
@@ -80,7 +88,7 @@
         }
         
         // Color cell elements
-        self.titleLabel.textColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"MainFont"];
+//        self.titleLabel.textColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"MainFont"];
         self.postedTimeLabel.textColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"SubFont"];
         self.scoreLabel.textColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"SubFont"];
         self.bottomBar.backgroundColor = [[HNSingleton sharedHNSingleton].themeDict objectForKey:@"BottomBar"];
@@ -132,6 +140,22 @@
                 self.titleLabel.alpha = 0.35;
             }
         }
+        
+        // set up background container image
+        UIView *containerImageView = [[UIView alloc] init];
+        containerImageView.backgroundColor = [UIColor blackColor];
+        containerImageView.alpha = 0.2;
+        containerImageView.layer.cornerRadius = 2.0;
+        containerImageView.isAccessibilityElement = NO;
+        
+        int containerPadExtraX = 2.0;
+        int containerPadExtraY = 37.0;
+        containerImageView.frame = CGRectMake(4.0 + containerPadExtraX, 0,
+                                              320.0 - 4.0*2 - containerPadExtraX*2, self.contentView.frame.size.height-5);
+        
+        containerImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        [self.contentView addSubview:containerImageView];
+        [self.contentView sendSubviewToBack:containerImageView];
     }
     
     return self;

@@ -49,6 +49,11 @@
 		BB7681B417EFDB9F0098FB08 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = BB7681B117EFDB9F0098FB08 /* TFHpple.m */; };
 		BB7681B517EFDB9F0098FB08 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = BB7681B317EFDB9F0098FB08 /* TFHppleElement.m */; };
 		BB7681B817EFDBA60098FB08 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = BB7681B717EFDBA60098FB08 /* XPathQuery.m */; };
+		BBEB4D9018B788BD00C317EB /* CrossFadeImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = BBEB4D8D18B788BC00C317EB /* CrossFadeImageView.m */; };
+		BBEB4D9118B788BD00C317EB /* UIUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BBEB4D8F18B788BD00C317EB /* UIUtil.m */; };
+		BBEB4D9418B7891200C317EB /* EBGPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BBEB4D9318B7891200C317EB /* EBGPhotoManager.m */; };
+		BBEB4D9618B78B4200C317EB /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BBEB4D9518B78B4200C317EB /* background.jpg */; };
+		BBEB4D9818B78DEC00C317EB /* EDefulatBGPhotos in Resources */ = {isa = PBXBuildFile; fileRef = BBEB4D9718B78DEC00C317EB /* EDefulatBGPhotos */; };
 		BBF6026717EFE68F00CF8FC1 /* app.css in Resources */ = {isa = PBXBuildFile; fileRef = BB76818F17EF2EB20098FB08 /* app.css */; };
 		BBF6026817EFE68F00CF8FC1 /* bootstrap-responsive.css in Resources */ = {isa = PBXBuildFile; fileRef = BB76819017EF2EB20098FB08 /* bootstrap-responsive.css */; };
 		BBF6026917EFE68F00CF8FC1 /* bootstrap-responsive.min.css in Resources */ = {isa = PBXBuildFile; fileRef = BB76819117EF2EB20098FB08 /* bootstrap-responsive.min.css */; };
@@ -234,6 +239,14 @@
 		BB7681B317EFDB9F0098FB08 /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
 		BB7681B617EFDBA60098FB08 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
 		BB7681B717EFDBA60098FB08 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
+		BBEB4D8C18B788BC00C317EB /* CrossFadeImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossFadeImageView.h; sourceTree = "<group>"; };
+		BBEB4D8D18B788BC00C317EB /* CrossFadeImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossFadeImageView.m; sourceTree = "<group>"; };
+		BBEB4D8E18B788BC00C317EB /* UIUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIUtil.h; sourceTree = "<group>"; };
+		BBEB4D8F18B788BD00C317EB /* UIUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIUtil.m; sourceTree = "<group>"; };
+		BBEB4D9218B7891200C317EB /* EBGPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EBGPhotoManager.h; sourceTree = "<group>"; };
+		BBEB4D9318B7891200C317EB /* EBGPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EBGPhotoManager.m; sourceTree = "<group>"; };
+		BBEB4D9518B78B4200C317EB /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
+		BBEB4D9718B78DEC00C317EB /* EDefulatBGPhotos */ = {isa = PBXFileReference; lastKnownFileType = folder; path = EDefulatBGPhotos; sourceTree = "<group>"; };
 		BBFED743184B2CD2003B78FD /* libPods-SVPullToRefresh.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SVPullToRefresh.a"; path = "Pods/build/Debug-iphoneos/libPods-SVPullToRefresh.a"; sourceTree = "<group>"; };
 		BBFED752184B4422003B78FD /* editmode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = editmode.png; sourceTree = "<group>"; };
 		BBFED755184B4DF7003B78FD /* SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPullToRefresh.h; sourceTree = "<group>"; };
@@ -717,7 +730,14 @@
 		C01EDE371731A48500AE97B8 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				BBEB4D9718B78DEC00C317EB /* EDefulatBGPhotos */,
+				BBEB4D9218B7891200C317EB /* EBGPhotoManager.h */,
+				BBEB4D9318B7891200C317EB /* EBGPhotoManager.m */,
 				C01EDE7A1731E2A900AE97B8 /* Helpers.h */,
+				BBEB4D8C18B788BC00C317EB /* CrossFadeImageView.h */,
+				BBEB4D8D18B788BC00C317EB /* CrossFadeImageView.m */,
+				BBEB4D8E18B788BC00C317EB /* UIUtil.h */,
+				BBEB4D8F18B788BD00C317EB /* UIUtil.m */,
 				C01EDE7B1731E2A900AE97B8 /* Helpers.m */,
 				C08142191797979400D1BB17 /* UILabel+LinkDetection.h */,
 				C081421A1797979400D1BB17 /* UILabel+LinkDetection.m */,
@@ -728,6 +748,7 @@
 		C01EDE4B1731A7E400AE97B8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BBEB4D9518B78B4200C317EB /* background.jpg */,
 				BBFED752184B4422003B78FD /* editmode.png */,
 				C0BFA68217EBA9B00093AAD4 /* x-01.png */,
 				BB2F8BF81837B432006E046C /* bg02.jpg */,
@@ -858,6 +879,7 @@
 				C01EDE631731A84800AE97B8 /* check-01.png in Resources */,
 				BB2F8BF91837B432006E046C /* bg02.jpg in Resources */,
 				C01EDE641731A84800AE97B8 /* github-01.png in Resources */,
+				BBEB4D9618B78B4200C317EB /* background.jpg in Resources */,
 				C01EDE651731A84800AE97B8 /* website-01.png in Resources */,
 				C01EDE661731A84800AE97B8 /* commentbubbleDark.png in Resources */,
 				C01EDE671731A84800AE97B8 /* nav_daymode_off-01.png in Resources */,
@@ -894,6 +916,7 @@
 				C0F93FF01739D61000E47B5E /* profileKarma-01.png in Resources */,
 				C0F93FF11739D61000E47B5E /* profileUser-01.png in Resources */,
 				C012E5CC173B09440030924E /* logoutOrange-01.png in Resources */,
+				BBEB4D9818B78DEC00C317EB /* EDefulatBGPhotos in Resources */,
 				C0FAA5DC173E737C00ED5F52 /* voteDownOff-01.png in Resources */,
 				C0FAA5DD173E737C00ED5F52 /* voteDownOn-01.png in Resources */,
 				C0FAA5DE173E737C00ED5F52 /* voteUpOff-01.png in Resources */,
@@ -971,6 +994,7 @@
 				C01EDE001731553B00AE97B8 /* ViewController.m in Sources */,
 				BBFED75B184B4DF7003B78FD /* UIScrollView+SVPullToRefresh.m in Sources */,
 				BB6ECC7C17ED9C6300C40FE4 /* ItemParser.m in Sources */,
+				BBEB4D9018B788BD00C317EB /* CrossFadeImageView.m in Sources */,
 				C01EDE0C1731557900AE97B8 /* Webservice.m in Sources */,
 				C01EDE1017315C6700AE97B8 /* Post.m in Sources */,
 				C01EDE131731861F00AE97B8 /* Comment.m in Sources */,
@@ -979,6 +1003,7 @@
 				C01EDE1E1731A3E500AE97B8 /* triangleView.m in Sources */,
 				C01EDE2F1731A44200AE97B8 /* FilterCell.m in Sources */,
 				BBFED75A184B4DF7003B78FD /* UIScrollView+SVInfiniteScrolling.m in Sources */,
+				BBEB4D9118B788BD00C317EB /* UIUtil.m in Sources */,
 				C01EDE311731A44200AE97B8 /* ShareCell.m in Sources */,
 				C01EDE331731A44200AE97B8 /* SettingsCell.m in Sources */,
 				C01EDE351731A44200AE97B8 /* CreditsCell.m in Sources */,
@@ -994,6 +1019,7 @@
 				C0F93FE51739CE1800E47B5E /* ProfileNotLoggedInCell.m in Sources */,
 				C0F93FEB1739D4D100E47B5E /* ProfileLoggedInCell.m in Sources */,
 				C0F93FF51739DE0000E47B5E /* KGStatusBar.m in Sources */,
+				BBEB4D9418B7891200C317EB /* EBGPhotoManager.m in Sources */,
 				C0FAA5E3173ED7C900ED5F52 /* SubmitLinkViewController.m in Sources */,
 				6C2DAAD3174C977B0069BAE1 /* ARChromeActivity.m in Sources */,
 				6C2DAB08174C9C2E0069BAE1 /* TUSafariActivity.m in Sources */,

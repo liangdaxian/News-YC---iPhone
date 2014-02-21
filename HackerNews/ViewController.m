@@ -12,6 +12,8 @@
 
 #import <UIScrollView+SVPullToRefresh.h>
 #import <UIScrollView+SVInfiniteScrolling.h>
+#import "CrossFadeImageView.h"
+#import "EBGPhotoManager.h"
 
 @interface ViewController () {
     // Home Page UI
@@ -43,7 +45,13 @@
     IBOutlet UIView *externalLinkView;
     __weak IBOutlet UIView *externalLinkHeader;
     __weak IBOutlet UIActivityIndicatorView *externalActivityIndicator;
-
+    
+    
+    IBOutlet UIView *bgimageview;
+    IBOutlet CrossFadeImageView *bgImageFull;
+    IBOutlet CrossFadeImageView *bgImageFullBlurred;
+    IBOutlet UIView *blackWashView;
+    
     // Webservice
     Webservice *HNService;
     NSInteger lastContentOffset;
@@ -60,6 +68,8 @@
     NSString *filterString;
     NSString *subPageIndex;
     int address;
+    EBGPhotoManager* bgPhotoMgr;
+    BOOL photoAnimotionStarted;
 }
 
 // Change Theme
@@ -220,6 +230,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeTheme) name:@"DidChangeTheme" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didLoginOrOut) name:@"DidLoginOrOut" object:nil];
     
+    // Listen for photo animotion complete notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(crossDissolvePhotos)
+                                                 name:EPHOTO_ANIMOTION_END_NOTIFICATION
+                                               object:nil];
+    
+    
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
 //        self.edgesForExtendedLayout = UIRectEdgeNone;
     }
@@ -241,6 +258,13 @@
     longPressRecognizer.minimumPressDuration = 1.0f;
     [linkWebView addGestureRecognizer:longPressRecognizer];
     
+    
+    //add background image
+    
+    bgPhotoMgr = [EBGPhotoManager sharedManager];
+    [self initBackgroundImageView];
+    
+    
     __strong ViewController *Self = self;
     
     [frontPageTable addPullToRefreshWithActionHandler:^{
@@ -254,6 +278,127 @@
     frontPageTable.infiniteScrollingView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
     
 }
+
+
+-(void)initBackgroundImageView{
+    
+    [bgImageFull setImage:[UIImage imageNamed:@"background.jpg"] animate:NO];
+    [bgImageFullBlurred setImage:[UIImage imageNamed:@"background.jpg"] animate:NO];
+    
+    CGSize viewSize = [[UIScreen mainScreen] bounds].size;
+    
+    bgimageview.frame = CGRectMake(-1.0 * 200, -1.0 * 150,
+                                        viewSize.width + 200 , viewSize.height + 150);
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:EPHOTO_ANIMOTION_END_NOTIFICATION object:nil];
+
+}
+
+- (void) crossDissolvePhotos{
+    
+    __weak ViewController* safeSelf = self;
+    [[EBGPhotoManager sharedManager] randomStockPhoto:^(NSDictionary * photos) {
+        
+        [bgImageFull setImage:[photos objectForKey:@"original"] animate:YES];
+        [bgImageFullBlurred setImage:[photos objectForKey:@"blurred"] animate:YES];
+        
+        [NSTimer scheduledTimerWithTimeInterval:1.5 target:safeSelf selector:@selector(addMovingEffectOnBackgroudImages) userInfo:nil repeats:NO];
+    }];
+}
+
+
+
+-(void)addMovingEffectOnBackgroudImages{
+    
+    
+    if(photoAnimotionStarted == YES)return;
+    
+    NSLog(@"debug: start animotion");
+    
+    CGSize viewSize = [[UIScreen mainScreen] bounds].size;
+    
+    CGFloat x = (CGFloat) (arc4random() % (int)200);
+    CGFloat y = (CGFloat) (arc4random() % (int)150);
+    
+    float randx = arc4random() % 2 >0? x/2.0f:x/-2.0f;
+    float randy = arc4random() % 2 >0? y/2.0f:y/-2.0f;
+    
+    CGPoint squarePostion = CGPointMake(viewSize.width/2.0f + randx, viewSize.height/2.0f + randy);
+    
+    CGFloat dx = squarePostion.x - bgimageview.center.x;
+    CGFloat dy = squarePostion.y - bgimageview.center.y;
+    CGFloat dist = sqrt(dx*dx + dy*dy );
+    
+    photoAnimotionStarted = YES;
+
+    [UIView animateWithDuration: 15.0f*dist/100.0 animations: ^{
+        
+        [bgimageview setCenter:squarePostion];
+        
+    }completion:^(BOOL finished) {
+        photoAnimotionStarted = NO;
+        [[NSNotificationCenter defaultCenter]postNotificationName:EPHOTO_ANIMOTION_END_NOTIFICATION object:nil];
+    }];
+    
+}
+
+
+// set blur of bg image, from 0 (no blur) to 1 (max)
+- (void)setBackgroundImageBlur:(CGFloat)blurAmount
+{
+    bgImageFullBlurred.alpha = blurAmount;
+    
+    // fade in black wash
+    blackWashView.alpha = blurAmount / 3.0;
+
+}
+
+
+// horizontal parallax
+- (void)setHorizParallaxPix:(CGFloat)pix
+{
+    CGRect frame = CGRectMake(-pix*0.35,
+                              bgImageFull.frame.origin.y,
+                              bgimageview.frame.size.width,
+                              bgimageview.frame.size.height);
+    bgImageFull.frame = frame;
+    bgImageFullBlurred.frame = frame;
+}
+
+
+//#pragma mark : scrollview deleteage method
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    //    [self setVerticalParallaxPix:scrollView.contentOffset.y];
+    if (scrollView == frontPageTable) {
+        CGFloat blurYOffDist =  self.view.frame.size.height - 200;
+        CGFloat blurAmount = 1.0 + (scrollView.contentOffset.y - blurYOffDist)/blurYOffDist;
+        float percent = MAX(0.0, MIN(blurAmount, 1.0));
+    
+        [self setBackgroundImageBlur:percent];
+    }
+    
+}
+//
+- (void)setVerticalParallaxPix:(CGFloat)pix
+{
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        // ignore in landscape mode - scroll view not visible
+        return;
+    }
+    // move background image for parallax effect, capping out at specified YOFF
+    // NOTE: parallax is handled within the background images themselves as the offset for the container
+    // is used for tilt effect offsets
+    CGFloat bgYOff = -1.0 * MIN(pix, 400.0)/8.0;
+    //NSLog(@"setplx pix is %f, bgyoff is %f", pix, bgYOff);
+    CGRect frame = CGRectMake(0, bgYOff,
+                              bgimageview.frame.size.width,
+                              bgimageview.frame.size.height);
+    bgImageFull.frame = frame;
+    bgImageFullBlurred.frame = frame;
+}
+
 
 - (void)viewDidAppear:(BOOL)animated {
     [self setSizes];
@@ -483,42 +628,6 @@
     }
 }
 
-
-#pragma mark - Scroll View Delegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == frontPageTable) {
-        // Use current fnid to grab latest posts
-       
-//        if ([[frontPageTable indexPathsForVisibleRows].lastObject row] == homePagePosts.count - 3 && HNService.isLoadingFromFNID == NO) {
-//            __block UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] init];
-//            [Helpers navigationController:self.navigationController addActivityIndicator:&indicator];
-//            [HNService getHomepageFromFnid:[HNSingleton sharedHNSingleton].CurrentFNID withSuccess:^(NSArray *posts) {
-//                indicator.alpha = 0;
-//                [indicator removeFromSuperview];
-//                if (posts.count > 0) {
-//                    [homePagePosts addObjectsFromArray:posts];
-//                    [frontPageTable reloadData];
-//                }
-//                else {
-//                    [HNService lockFNIDLoading];
-//                }
-//            } failure:^{
-//                [FailedLoadingView launchFailedLoadingInView:self.view];
-//                [HNService lockFNIDLoading];
-//                indicator.alpha = 0;
-//                [indicator removeFromSuperview];
-//            }];
-//        }
-
-       
-    }
-}
-
-- (void)setBackgroundImageBlur:(CGFloat)blurAmount
-{
-    backgroudImageView.alpha = blurAmount;
-}
-
 #pragma mark - TableView Delegate
 -(int)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -539,6 +648,9 @@
     }
 }
 
+UIView *_tableViewCellContainerView;
+UIView *_contentView;
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     // Front Page
     if (tableView == frontPageTable) {
@@ -552,8 +664,6 @@
                 }
             }
         }
-        
-        cell.backgroundColor = [UIColor colorWithRed:0.0f green:196/255.0f blue:198/255.0f alpha:1.0] ;
         
         cell = [cell setCellWithPost:(homePagePosts.count > 0 ? homePagePosts[indexPath.row] : nil) atIndex:indexPath fromController:self];
         
@@ -623,7 +733,7 @@
         if ([[homePagePosts objectAtIndex:indexPath.row] isOpenForActions]) {
             return kFrontPageActionsHeight;
         }
-        return kFrontPageCellHeight;
+        return kFrontPageCellHeight  + 10 ;//+ MAX(0, title.length - 60);
     }
 }
 
@@ -1083,21 +1193,7 @@ NSString *selectedImageURL;
     
     NSURL *iUrl = [NSURL URLWithString:url];
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:iUrl]];
-
-    frontPageTable.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [UIColor clearColor];
-    backgroudImageView.image = image;
-
-    UIImageView *cover = [[UIImageView alloc]initWithFrame:backgroudImageView.frame];
-    cover.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
-    [self.view addSubview:cover];
-    [self.view sendSubviewToBack:cover];
-    
-    [self.view sendSubviewToBack:backgroudImageView];
-
-    [self.view setNeedsDisplay];
-    [self.view layoutSubviews];
-
+    [bgPhotoMgr setBackgroudImageWithImage:image andRomoveAllOtherImages:NO];
 }
 
 #pragma mark - External Link View
