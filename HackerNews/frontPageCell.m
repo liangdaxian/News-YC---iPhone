@@ -54,10 +54,22 @@
         self.autoresizesSubviews = YES;
         
         self.titleLabel.text = post.Title;
+        
+        self.postStypeImageView.image = [UIImage imageNamed:@"notification_doc_100_115.png"];
+        
+        NSString *regexString = @".*[0-9]+(p|P).*";
+
+        NSPredicate * regexTest = [NSPredicate predicateWithFormat: @"SELF MATCHES %@",regexString];
+        
+        if ([regexTest evaluateWithObject:post.Title]) {
+            self.postStypeImageView.image = [UIImage imageNamed:@"notification_photo_105_83.png"];
+            self.postStypeImageView.frame = CGRectMake(self.postStypeImageView.frame.origin.x, self.postStypeImageView.frame.origin.y, 20, 15);
+        }
+        
         NSString *timeAgo = post.pubdate;
         self.postedTimeLabel.text = [NSString stringWithFormat:@"%@", timeAgo];
-        self.commentsLabel.text = [NSString stringWithFormat:@"%d", post.CommentCount];
-        self.scoreLabel.text = post.author;
+        self.commentsLabel.text = [NSString stringWithFormat:@"回复:%d", post.CommentCount];
+        self.scoreLabel.text = [NSString stringWithFormat:@"by %@",post.author];
         
         self.commentTagButton.tag = indexPath.row;
         self.commentBGButton.tag = indexPath.row;

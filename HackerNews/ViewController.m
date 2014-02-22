@@ -522,8 +522,8 @@
 
     
     __block UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] init];
-    [Helpers navigationController:self.navigationController addActivityIndicator:&indicator];
-
+//    [Helpers navigationController:self.navigationController addActivityIndicator:&indicator];
+    [loadingIndicator startAnimating];
     [HNService getHomepageWithFilter:filterString withAddressNO: address WithSubPageIndex:[subPageIndex intValue] success:^(NSArray *posts) {
 
         NSMutableArray *append = [[NSMutableArray alloc]init];
@@ -535,20 +535,24 @@
         
         [frontPageTable reloadData];
         [frontPageTable.infiniteScrollingView stopAnimating];
+        [frontPageTable.pullToRefreshView stopAnimating];
         [self endRefreshing:frontPageRefresher];
-        indicator.alpha = 0;
-        [indicator removeFromSuperview];
+        [loadingIndicator stopAnimating];
+
         [HNService unlockFNIDLoading];
     } failure:^{
+        
         [FailedLoadingView launchFailedLoadingInView:self.view];
         [frontPageTable.infiniteScrollingView stopAnimating];
+        [frontPageTable.pullToRefreshView stopAnimating];
+        
         if ([subPageIndex intValue]>0) {
             subPageIndex = [NSString stringWithFormat:@"%d",[subPageIndex intValue]-1];
         }
 
         [self endRefreshing:frontPageRefresher];
-        indicator.alpha = 0;
-        [indicator removeFromSuperview];
+
+        [loadingIndicator stopAnimating];
     }];
 }
 - (void)loadMoreItems{
@@ -590,6 +594,7 @@
     
     // Start Loading Indicator
     loadingIndicator.alpha = 1;
+    [loadingIndicator startAnimating];
 }
 
 -(void)reloadComments {
@@ -612,6 +617,7 @@
     // Start Loading Indicator
     [commentsRefresher beginRefreshing];
     loadingIndicator.alpha = 1;
+    [loadingIndicator startAnimating];
 }
 
 
@@ -619,6 +625,7 @@
 -(void)endRefreshing:(UIRefreshControl *)refresher {
     [refresher endRefreshing];
     loadingIndicator.alpha = 0;
+    [loadingIndicator stopAnimating];
 }
 
 
@@ -705,8 +712,18 @@ UIView *_contentView;
     }
 }
 
+-(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 0) {
+        return NO;
+    }
+    return YES;
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == frontPageTable) {
+        if (indexPath.row == 0) {
+            return;
+        }
         // Set Current Post
         currentPost = homePagePosts[indexPath.row];
         
@@ -747,12 +764,12 @@ UIView *_contentView;
     // Front Page Cell Height
     else {
         if (indexPath.row == 0) {
-            return 200;
+            return 250;
         }
         if ([[homePagePosts objectAtIndex:indexPath.row] isOpenForActions]) {
             return kFrontPageActionsHeight;
         }
-        return kFrontPageCellHeight  + 10 ;//+ MAX(0, title.length - 60);
+        return kFrontPageCellHeight  + 20 ;//+ MAX(0, title.length - 60);
     }
 }
 
@@ -898,6 +915,8 @@ UIView *_contentView;
     }
     
     loadingIndicator.alpha = 0;
+    [loadingIndicator stopAnimating];
+    
     [self placeHeaderBarBack];
         self.navigationController.navigationBarHidden = YES;
     // Animate everything

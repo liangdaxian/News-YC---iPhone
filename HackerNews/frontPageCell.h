@@ -28,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UIView *postActionsView;
 @property (retain, nonatomic) IBOutlet UILabel *descLabel;
 
+@property (strong, nonatomic) IBOutlet UIImageView *postStypeImageView;
+
 -(frontPageCell *)setCellWithPost:(Post *)post atIndex:(NSIndexPath *)indexPath fromController:(UIViewController *)controller;
 
 @end

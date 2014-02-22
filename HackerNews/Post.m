@@ -32,7 +32,7 @@
 //    newPost.PostID = [dict objectForKey:@"_id"];
 //    newPost.hnPostID = [dict objectForKey:@"id"];
 //    newPost.Points = [[dict objectForKey:@"points"] intValue];
-//    newPost.CommentCount = [[dict objectForKey:@"num_comments"] intValue];
+    newPost.CommentCount = [[dict objectForKey:@"num_comments"] intValue];
 //
 //    newPost.TimeCreated = [Helpers postDateFromString:[dict objectForKey:@"create_ts"]];
     newPost.isOpenForActions = NO;
@@ -94,26 +94,27 @@
    
     TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:[htmlString dataUsingEncoding: enc] encoding:@"gbk"];
     
-    NSArray * elements  = [doc searchWithXPathQuery:@"//a[@target='_blank' and contains(@href, 'htm_data')]"];
-    NSMutableArray *postArray = [NSMutableArray array];
+    // find all trs
+    NSArray * trelements  = [doc searchWithXPathQuery:@"//tr[@class='tr3 t_one']"];
 
-    if (elements && elements.count>0) {
+    NSMutableArray *postArray = [NSMutableArray array];
+    
+    if (trelements && trelements.count > 0) {
+    
         
-        for (TFHppleElement *element in elements) {
+        for (TFHppleElement *element in trelements) {
             
-            NSLog(@"href:%@",[element objectForKey:@"href"]);
-            NSLog(@"content:%@",[[element firstChild] content]);
-            NSLog(@"text:%@",[[element firstChild] text]);
+            NSDictionary *dict = [NSMutableDictionary dictionary];// content dict
             
-            if ([[[element firstChild] content] isEqualToString:@".::"] || [[[element firstChild] text] isEqualToString:@".::"]){
-                // abdon it
-                NSLog(@"discard it");
+            NSArray * elements  = [element searchWithXPathQuery:@"//a[@target='_blank' and contains(@href, 'htm_data') and not(@title)]"];
+            NSString* title = nil;
+            for (TFHppleElement *element in elements) { // should be two
                 
-            }else { // remove dulicate
+                NSLog(@"href:%@",[element objectForKey:@"href"]);
+                NSLog(@"content:%@",[[element firstChild] content]);
+                NSLog(@"text:%@",[[element firstChild] text]);
                 
-                 NSDictionary *dict = [NSMutableDictionary dictionary];
-                
-                NSString *title = [[element firstChild] text];
+                title = [[element firstChild] text];
                 if (!title || title.length <=0) {
                     title = [[element firstChild] content];
                 }
@@ -124,11 +125,53 @@
                 
                 [dict setValue:link forKey:@"link"];
                 [dict setValue:@"" forKey:@"author"];
-                [postArray addObject:[Post postFromDictionary:dict]];
-                
             }
+            if (!title || title.length == 0) {
+                continue;
+            }
+            NSArray * authorElements  = [element searchWithXPathQuery:@"//a[@class='bl' and contains(@href, 'profile.php')]"];
+            
+            for (TFHppleElement *element in authorElements) { // should be only one
+                
+                NSLog(@"content:%@",[[element firstChild] content]);
+                NSLog(@"text:%@",[[element firstChild] text]);
+                NSString *title = [[element firstChild] text];
+                if (!title || title.length <=0) {
+                    title = [[element firstChild] content];
+                }
+                [dict setValue:title forKey:@"author"];
+            }
+            
+            NSArray * timeElements  = [element searchWithXPathQuery:@"//div[@class='f10']"];
+            
+            for (TFHppleElement *element in timeElements) { // should be only one
+                
+                NSLog(@"content:%@",[[element firstChild] content]);
+                NSLog(@"text:%@",[[element firstChild] text]);
+                NSString *title = [[element firstChild] text];
+                if (!title || title.length <=0) {
+                    title = [[element firstChild] content];
+                }
+                [dict setValue:title forKey:@"pubdate"];
+            }
+            
+            NSArray * commentsElements  = [element searchWithXPathQuery:@"//td[@class='tal f10 y-style']"];
+            
+            for (TFHppleElement *element in commentsElements) { // should be only one
+                
+                NSLog(@"content:%@",[[element firstChild] content]);
+                NSLog(@"text:%@",[[element firstChild] text]);
+                NSString *title = [[element firstChild] text];
+                if (!title || title.length <=0) {
+                    title = [[element firstChild] content];
+                }
+                [dict setValue:title forKey:@"num_comments"];
+            }
+            
+            [postArray addObject:[Post postFromDictionary:dict]];
         }
     }
+    
     return postArray;
 }
 

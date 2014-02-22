@@ -224,7 +224,7 @@ static NSString * const TFHppleTextNodeName            = @"text";
     if (isXML) {
         detailNodes = PerformXMLXPathQueryWithEncoding(data, xPathOrCSS, encoding);
     } else {
-        detailNodes = PerformHTMLXPathQueryWithEncoding(data, xPathOrCSS, encoding);
+        detailNodes = PerformHTMLXPathQuery(data, xPathOrCSS);
     }
     
     NSMutableArray * hppleElements = [NSMutableArray array];

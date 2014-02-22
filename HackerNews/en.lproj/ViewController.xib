@@ -25,7 +25,7 @@
                 <outlet property="linkView" destination="10" id="120"/>
                 <outlet property="linkViewLoadingIndicator" destination="NHm-Bn-1b7" id="v7E-Gj-MTq"/>
                 <outlet property="linkWebView" destination="11" id="118"/>
-                <outlet property="loadingIndicator" destination="25" id="110"/>
+                <outlet property="loadingIndicator" destination="2SL-v1-xeC" id="YqF-29-8yx"/>
                 <outlet property="postTitleLabel" destination="22" id="121"/>
                 <outlet property="sidebarButton" destination="jx3-2c-0R8" id="36B-PW-juV"/>
                 <outlet property="submitLinkButton" destination="147" id="149"/>
@@ -80,6 +80,10 @@
                             <rect key="frame" x="17" y="23" width="25" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app_icon_caoliushequ.png" id="ciZ-oB-X8C">
+                            <rect key="frame" x="105" y="26" width="110" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jx3-2c-0R8">
                             <rect key="frame" x="6" y="11" width="51" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -91,6 +95,11 @@
                                 <action selector="toggleSideNav:" destination="-1" eventType="touchUpInside" id="bvd-AO-e2F"/>
                             </connections>
                         </button>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" id="2SL-v1-xeC">
+                            <rect key="frame" x="282" y="26" width="20" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </activityIndicatorView>
                     </subviews>
                 </view>
                 <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="23">
@@ -400,6 +409,7 @@
         </view>
     </objects>
     <resources>
+        <image name="app_icon_caoliushequ.png" width="287.25" height="67.5"/>
         <image name="horizontal_gradient_top_large.png" width="320" height="300"/>
         <image name="menu_b3-01.png" width="30" height="18"/>
         <image name="share.png" width="50" height="50"/>
