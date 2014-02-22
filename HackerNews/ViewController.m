@@ -266,6 +266,19 @@
     bgPhotoMgr = [EBGPhotoManager sharedManager];
     [self initBackgroundImageView];
 
+    
+    UIView * view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 568)];
+    
+    
+    UIImage *maskingImage = [UIImage imageNamed:@"mask.png"];
+    CALayer *maskingLayer = [CALayer layer];
+    maskingLayer.frame = CGRectMake(0, 0, 320, 531); //!!!!!!!! hardcoded
+    [maskingLayer setContents:(id)[maskingImage CGImage]];
+    [view.layer setMask:maskingLayer];
+    [self.view addSubview:view];
+    
+    [self.view bringSubviewToFront:frontPageTable];
+    
     __strong ViewController *Self = self;
     
     [frontPageTable addPullToRefreshWithActionHandler:^{

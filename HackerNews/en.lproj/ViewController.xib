@@ -65,11 +65,11 @@
                     </accessibility>
                 </view>
                 <view contentMode="scaleToFill" id="tM3-dN-qQm" userLabel="header view">
-                    <rect key="frame" x="0.0" y="-1" width="320" height="52"/>
+                    <rect key="frame" x="0.0" y="-1" width="320" height="58"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" alpha="0.40000000596046448" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="horizontal_gradient_top_large.png" id="rYD-Vs-Abr" userLabel="headerBackImage">
-                            <rect key="frame" x="-1" y="-79" width="326" height="7"/>
+                            <rect key="frame" x="-1" y="-79" width="326" height="13"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" alpha="0.40000000596046448" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="horizontal_gradient_top_large.png" id="Vfg-X8-dLm" userLabel="headerShadowImage">
@@ -103,7 +103,7 @@
                     </subviews>
                 </view>
                 <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="23">
-                    <rect key="frame" x="0.0" y="53" width="320" height="516"/>
+                    <rect key="frame" x="0.0" y="61" width="320" height="504"/>
                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
