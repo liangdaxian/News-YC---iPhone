@@ -200,6 +200,75 @@
     return self;
 }
 
+-(void)updateFilterType:(FilterType)type address:(AddressType)addr{
+    self.addressType = addr;
+    switch (addr) {
+        case AddressType1:
+            address = 1;
+            break;
+        case AddressType2:
+            address = 2;
+            break;
+        case AddressType3:
+            address = 3;
+            break;
+        case AddressType4:
+            address = 4;
+            break;
+        case AddressType5:
+            address = 5;
+            break;
+        case AddressType6:
+            address = 6;
+            break;
+        case AddressTypeDefault:
+            address = 7;
+            break;
+        default:
+            address = 0;
+            break;
+    }
+    self.filterType = type;
+    switch (type) {
+        case FilterTypeDiscuss:
+            filterString = @"7";
+            break;
+        case FilterTypeNewUs:
+            filterString = @"8";
+            break;
+        case FilterTypeFlag:
+            filterString = @"16";
+            break;
+        case FilterTypeNovel:
+            filterString = @"20";
+            break;
+        case FilterTypeAsiaNo:
+            filterString = @"2";
+            break;
+        case FilterTypeAsiaYes:
+            filterString = @"15";
+            break;
+        case FilterTypeAmerica:
+            filterString = @"4";
+            break;
+        case FilterTypeComic:
+            filterString = @"5";
+            break;
+        case FilterTypeHttpDownload:
+            filterString = @"21";
+            break;
+        default:
+            filterString = @"7";
+            self.filterType = 0;
+            break;
+    }
+
+
+    // update data
+    
+    [self refreshHomepage];
+}
+
 
 - (void)viewDidLoad
 {
@@ -266,7 +335,7 @@
     bgPhotoMgr = [EBGPhotoManager sharedManager];
     [self initBackgroundImageView];
     
-    __strong ViewController *Self = self;
+    __weak ViewController *Self = self;
     
     [frontPageTable addPullToRefreshWithActionHandler:^{
         [Self refreshHomepage];
@@ -414,7 +483,17 @@
     NSLog(@"%@", NSStringFromCGRect(frontPageTable.frame));
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+}
 
+-(void)dealloc{
+    
+    NSLog(@"debug");
+    
+}
 #pragma mark - Memory
 - (void)didReceiveMemoryWarning
 {

@@ -70,37 +70,34 @@ static EBGPhotoManager *sharedManager = nil;
 
 - (void) randomStockPhoto: (void (^)(NSDictionary *)) completion {
     
-    dispatch_queue_t queue = dispatch_queue_create("AsyncQueueLabel", NULL);
     dispatch_queue_t main = dispatch_get_main_queue();
     
-    dispatch_async(queue, ^{
-        UIImage* origImage = nil;
-        UIImage* blurImage = nil;
-       
-        int stockPhotoCount = ([self.stockPhotoSet count] - 1);
-        
-        int randomIndex = 0;
-        int MaxAttamp = 10;
-        
-        BOOL findOne = NO;
-        while (!findOne && MaxAttamp >0) {
-            randomIndex = [self getRandomIntBetweenLow:0 andHigh:stockPhotoCount];
-            if (randomIndex >=0 && randomIndex < self.stockPhotoSet.count) {
-                origImage  = [self.stockPhotoSet objectAtIndex:randomIndex];
-                findOne = YES;
-                blurImage  = [self makeBlurImageWithImage:origImage];
-            }
-            MaxAttamp--;
-        }
-        if (!findOne) {
-            origImage = [UIImage imageNamed:@"background.jpg"];
+    UIImage* origImage = nil;
+    UIImage* blurImage = nil;
+    
+    int stockPhotoCount = ([self.stockPhotoSet count] - 1);
+    
+    int randomIndex = 0;
+    int MaxAttamp = 10;
+    
+    BOOL findOne = NO;
+    while (!findOne && MaxAttamp >0) {
+        randomIndex = [self getRandomIntBetweenLow:0 andHigh:stockPhotoCount];
+        if (randomIndex >=0 && randomIndex < self.stockPhotoSet.count) {
+            origImage  = [self.stockPhotoSet objectAtIndex:randomIndex];
+            findOne = YES;
             blurImage  = [self makeBlurImageWithImage:origImage];
         }
-        dispatch_async(main, ^{
-            completion([[NSDictionary alloc] initWithObjectsAndKeys:origImage, @"original",
-                       blurImage, @"blurred",
-                       nil]);
-        });
+        MaxAttamp--;
+    }
+    if (!findOne) {
+        origImage = [UIImage imageNamed:@"background.jpg"];
+        blurImage  = [self makeBlurImageWithImage:origImage];
+    }
+    dispatch_async(main, ^{
+        completion([[NSDictionary alloc] initWithObjectsAndKeys:origImage, @"original",
+                    blurImage, @"blurred",
+                    nil]);
     });
 }
 

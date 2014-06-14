@@ -54,6 +54,8 @@ typedef NS_ENUM(NSInteger, AddressType) {
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil filterType:(FilterType)type;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil filterType:(FilterType)type address:(AddressType)addr;
 
+-(void)updateFilterType:(FilterType)type address:(AddressType)addr;
+
 @property (nonatomic, assign) FilterType filterType;
 @property (nonatomic, assign) AddressType addressType;
 @end

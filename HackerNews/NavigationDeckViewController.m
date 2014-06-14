@@ -50,9 +50,21 @@
 - (void)filterHomePageWithType:(int)type {
     currentFilterNO = type;
     currentAddrNO = currentAddrNO >= 0 ? currentAddrNO : 0;
-    ViewController *vc = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil filterType:currentFilterNO address:currentAddrNO];
+//    ViewController *vc = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil filterType:currentFilterNO address:currentAddrNO];
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [del.deckController setCenterController:[[UINavigationController alloc] initWithRootViewController:vc]];
+//    [del.deckController setCenterController:[[UINavigationController alloc] initWithRootViewController:vc]];
+    UIViewController* vc = del.deckController.centerController;
+    if ([vc isKindOfClass:[ViewController class]]) {
+        [(ViewController*)vc updateFilterType:currentFilterNO address:currentAddrNO];
+    }else if([vc isKindOfClass:[UINavigationController class]]){
+        for (UIViewController* svc in [(UINavigationController*)vc viewControllers]) {
+            if ([svc isKindOfClass:[ViewController class]]) {
+                [(ViewController*)svc updateFilterType:currentFilterNO address:currentAddrNO];
+                break;
+            }
+        }
+    }
+
     [self.viewDeckController toggleLeftView];
 }
 
@@ -60,9 +72,20 @@
 - (void)setUpAddressWithAddrID:(int)addr {
     currentAddrNO = addr;
     currentFilterNO = currentFilterNO >= 0 ? currentFilterNO : 0;
-    ViewController *vc = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil filterType:currentFilterNO address:currentAddrNO];
+//    ViewController *vc = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil filterType:currentFilterNO address:currentAddrNO];
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [del.deckController setCenterController:[[UINavigationController alloc] initWithRootViewController:vc]];
+//    [del.deckController setCenterController:[[UINavigationController alloc] initWithRootViewController:vc]];
+    UIViewController* vc = del.deckController.centerController;
+    if ([vc isKindOfClass:[ViewController class]]) {
+        [(ViewController*)vc updateFilterType:currentFilterNO address:currentAddrNO];
+    }else if([vc isKindOfClass:[UINavigationController class]]){
+        for (UIViewController* svc in [(UINavigationController*)vc viewControllers]) {
+            if ([svc isKindOfClass:[ViewController class]]) {
+                [(ViewController*)svc updateFilterType:currentFilterNO address:currentAddrNO];
+                break;
+            }
+        }
+    }
     [self.viewDeckController toggleLeftView];
 }
 

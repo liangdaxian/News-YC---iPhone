@@ -110,9 +110,9 @@
             NSString* title = nil;
             for (TFHppleElement *element in elements) { // should be two
                 
-                NSLog(@"href:%@",[element objectForKey:@"href"]);
-                NSLog(@"content:%@",[[element firstChild] content]);
-                NSLog(@"text:%@",[[element firstChild] text]);
+//                NSLog(@"href:%@",[element objectForKey:@"href"]);
+//                NSLog(@"content:%@",[[element firstChild] content]);
+//                NSLog(@"text:%@",[[element firstChild] text]);
                 
                 title = [[element firstChild] text];
                 if (!title || title.length <=0) {
@@ -133,8 +133,8 @@
             
             for (TFHppleElement *element in authorElements) { // should be only one
                 
-                NSLog(@"content:%@",[[element firstChild] content]);
-                NSLog(@"text:%@",[[element firstChild] text]);
+//                NSLog(@"content:%@",[[element firstChild] content]);
+//                NSLog(@"text:%@",[[element firstChild] text]);
                 NSString *title = [[element firstChild] text];
                 if (!title || title.length <=0) {
                     title = [[element firstChild] content];
@@ -146,8 +146,8 @@
             
             for (TFHppleElement *element in timeElements) { // should be only one
                 
-                NSLog(@"content:%@",[[element firstChild] content]);
-                NSLog(@"text:%@",[[element firstChild] text]);
+//                NSLog(@"content:%@",[[element firstChild] content]);
+//                NSLog(@"text:%@",[[element firstChild] text]);
                 NSString *title = [[element firstChild] text];
                 if (!title || title.length <=0) {
                     title = [[element firstChild] content];
@@ -159,8 +159,8 @@
             
             for (TFHppleElement *element in commentsElements) { // should be only one
                 
-                NSLog(@"content:%@",[[element firstChild] content]);
-                NSLog(@"text:%@",[[element firstChild] text]);
+//                NSLog(@"content:%@",[[element firstChild] content]);
+//                NSLog(@"text:%@",[[element firstChild] text]);
                 NSString *title = [[element firstChild] text];
                 if (!title || title.length <=0) {
                     title = [[element firstChild] content];
